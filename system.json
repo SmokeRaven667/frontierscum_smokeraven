@@ -1,0 +1,267 @@
+{
+    "name": "frontierscum",
+    "title": "Frontier Scum",
+    "description": "Foundry VTT system for Frontier Scum.",
+    "version": "1.0.0",
+    "templateVersion": 2,
+    "author": "smokeraven",
+    "scripts": [],
+    "esmodules": [
+        "module/frontierscum.js"
+    ],
+    "styles": [
+        "css/frontierscum.css"
+    ],
+    "packs": [
+        {
+            "name": "character-creation",
+            "label": "Character Creation",
+            "system": "frontierscum",
+            "path": "./packs/character-creation.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "class-carcass-trapper",
+            "label": "Class - Carcass Trapper",
+            "system": "frontierscum",
+            "path": "./packs/class-carcass-trapper.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-frostbit-prospector",
+            "label": "Class - Frostbit Prospector",
+            "system": "frontierscum",
+            "path": "./packs/class-frostbit-prospector.db",
+            "entity": "Item"
+        },
+        {
+            "name": "actors-discharged-deputy",
+            "label": "Actors - Discharged Deputy",
+            "system": "frontierscum",
+            "path": "./packs/actors-discharged-deputy.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "actors-suffering-clerk",
+            "label": "Actors - Suffering Clerk",
+            "system": "frontierscum",
+            "path": "./packs/actors-suffering-clerk.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "actors-butcher-cook",
+            "label": "Actors - Butcher Cook",
+            "system": "frontierscum",
+            "path": "./packs/actors-butcher-cook.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "actors-doctor-sans-diploma",
+            "label": "Actors - Doctor Sans Diploma",
+            "system": "frontierscum",
+            "path": "./packs/actors-doctor-sans-diploma.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "actors-ghoulish-undertaker",
+            "label": "Actors - Ghoulish Undertake",
+            "system": "frontierscum",
+            "path": "./packs/actors-ghoulish-undertaker.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "actors-calloused-ranch-hand",
+            "label": "Actors - Calloused Ranch Hand",
+            "system": "frontierscum",
+            "path": "./packs/actors-calloused-ranch-hand.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "actors-gambler-and-a-cheat",
+            "label": "Actors - Gambler and A Cheat",
+            "system": "frontierscum",
+            "path": "./packs/actors-gabler-and-a-cheat.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "actors-charlatan-and-a-fraud",
+            "label": "Actors - Charlatan and A Fraud",
+            "system": "frontierscum",
+            "path": "./packs/actors-charlatan-and-a-fraud.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "actors-drifter",
+            "label": "Actors - Drifter",
+            "system": "frontierscum",
+            "path": "./packs/actors-drifter.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "containers",
+            "label": "Containers",
+            "system": "frontierscum",
+            "path": "./packs/containers.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "creatures",
+            "label": "Creatures",
+            "system": "frontierscum",
+            "path": "./packs/creatures.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "equipment-armor",
+            "label": "Equipment - Armor",
+            "system": "frontierscum",
+            "path": "./packs/equipment-armor.db",
+            "entity": "Item"
+        },
+        {
+            "name": "equipment-misc",
+            "label": "Equipment - Misc",
+            "system": "frontierscum",
+            "path": "./packs/equipment-misc.db",
+            "entity": "Item"
+        },
+        {
+            "name": "equipment-scrolls",
+            "label": "Equipment - Scrolls",
+            "system": "frontierscum",
+            "path": "./packs/equipment-scrolls.db",
+            "entity": "Item"
+        },
+        {
+            "name": "equipment-weapons",
+            "label": "Equipment - Weapons",
+            "system": "frontierscum",
+            "path": "./packs/equipment-weapons.db",
+            "entity": "Item"
+        },
+        {
+            "name": "follower-items",
+            "label": "Follower Items",
+            "system": "frontierscum",
+            "path": "./packs/follower-items.db",
+            "entity": "Item"
+        },
+        {
+            "name": "followers",
+            "label": "Followers",
+            "system": "frontierscum",
+            "path": "./packs/followers.db",
+            "entity": "Actor"
+        },
+        {
+            "name": "macros-occult-herbmaster",
+            "label": "Macros - Occult Herbmaster",
+            "system": "frontierscum",
+            "path": "./packs/macros-occult-herbmaster.db",
+            "entity": "Macro"
+        },
+        {
+            "name": "random-scrolls",
+            "label": "Random Scrolls",
+            "system": "frontierscum",
+            "path": "./packs/random-scrolls.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-carcass-trapper",
+            "label": "Rolls - Carcass Trapper",
+            "system": "frontierscum",
+            "path": "./packs/rolls-carcass-trapper.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-suffering-clerk",
+            "label": "Rolls - Suffering Clerk",
+            "system": "frontierscum",
+            "path": "./packs/rolls-suffering-clerk.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-butcher-cook",
+            "label": "Rolls - Butcher Cook",
+            "system": "frontierscum",
+            "path": "./packs/rolls-butcher-cook.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-doctor-sans-diploma",
+            "label": "Rolls - Doctor Sans Diploma",
+            "system": "frontierscum",
+            "path": "./packs/rolls-doctor-sans-diploma.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-ghoulish-undertaker",
+            "label": "Rolls - Ghoulish Undertaker",
+            "system": "frontierscum",
+            "path": "./packs/rolls-ghoulish-undertaker.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-calloused-ranch-hand",
+            "label": "Rolls - Calloused Ranch Hand",
+            "system": "frontierscum",
+            "path": "./packs/rolls-calloused-ranch-hand.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-gambler-and-a-cheat",
+            "label": "Rolls - Gambler And A Cheat",
+            "system": "frontierscum",
+            "path": "./packs/rolls-gambler-and-a-cheat.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-charlatan-and-a-fraud",
+            "label": "Rolls - Charlatan And A Fraud",
+            "system": "frontierscum",
+            "path": "./packs/rolls-charlatan-and-a-fraud.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-drifter",
+            "label": "Rolls - Drifter",
+            "system": "frontierscum",
+            "path": "./packs/rolls-drifter.db",
+            "entity": "RollTable"
+        }
+    ],
+    "languages": [
+        {
+            "lang": "de",
+            "name": "Deutsch",
+            "path": "lang/de.json"
+        },
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        },
+        {
+            "lang": "sv",
+            "name": "Svenska",
+            "path": "lang/sv.json"
+        },
+        {
+            "lang": "fr",
+            "name": "Français",
+            "path": "lang/fr.json"
+        }
+    ],
+    "socket": true,
+    "initiative": "1d6",
+    "gridDistance": 10,
+    "gridUnits": "ft",
+    "primaryTokenAttribute": "hp",
+    "secondaryTokenAttribute": null,
+    "minimumCoreVersion": "0.8.6",
+    "compatibleCoreVersion": "9",
+    "url": "https://github.com/fvtt-fria-ligan/frontierscum-foundry-vtt",
+    "manifest": "https://github.com/fvtt-fria-ligan/frontierscum-foundry-vtt/releases/latest/download/system.json",
+    "download": "https://github.com/fvtt-fria-ligan/frontierscum-foundry-vtt/releases/download/1.13.1/system.zip"
+}

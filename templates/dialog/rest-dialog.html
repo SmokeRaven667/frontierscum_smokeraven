@@ -1,0 +1,67 @@
+<form id="rest-form" class="custom-dialog rest-dialog">
+  <div class="section">
+    <div class="subtitle">{{localize 'FS.RestDialogLength'}}</div>
+    <div>
+      <ul>
+        <li>
+          <label
+            ><input name="rest-length" type="radio" value="short" checked />
+            <div>{{localize 'FS.RestDialogLengthShort'}}</div></label
+          >
+        </li>
+        <li>
+          <label
+            ><input name="rest-length" type="radio" value="long" />
+            <div>{{localize 'FS.RestDialogLengthLong'}}</div></label
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="subtitle">{{localize 'FS.RestDialogFoodAndDrink'}}</div>
+    <div>
+      <ul>
+        <li>
+          <label
+            ><input name="food-and-drink" type="radio" value="eat" checked />
+            <div>{{localize 'FS.RestDialogEat'}}</div></label
+          >
+        </li>
+        <li>
+          <label
+            ><input name="food-and-drink" type="radio" value="donteat" />
+            <div>{{localize 'FS.RestDialogDontEat'}}</div></label
+          >
+        </li>
+        <li>
+          <label
+            ><input name="food-and-drink" type="radio" value="starve" />
+            <div>{{localize 'FS.RestDialogStarve'}}</div></label
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="subtitle">{{localize 'FS.Infection'}}</div>
+    <div>
+      <ul>
+        <li>
+          <label
+            ><input name="infected" type="checkbox" />
+            <div>{{localize 'FS.RestDialogInfected'}}</div></label
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="button-row">
+    <button type="submit" class="button rest-button" name="rest" value="1">
+      {{localize 'FS.Rest'}}
+    </button>
+  </div>
+</form>

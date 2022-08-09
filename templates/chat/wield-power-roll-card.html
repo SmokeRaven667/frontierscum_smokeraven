@@ -1,0 +1,31 @@
+<form class="roll-card wield-power-roll-card">
+  <div class="card-title">{{localize 'FS.WieldAPower'}}</div>
+  <div class="wield-roll">
+    <div class="roll-title">
+      <span
+        >{{localize 'FS.Wield'}}: {{wieldFormula}} {{localize 'FS.Vs'}}
+        {{localize 'FS.DR'}} {{wieldDR}}</span
+      >
+    </div>
+    <div class="roll-result">
+      <span>{{xtotal wieldRoll}}</span>
+    </div>
+  </div>
+  <div class="outcome-text">
+    <span class="attack-outcome">{{wieldOutcome}}</span>
+  </div>
+  {{#if damageRoll}}
+  <div class="damage-roll">
+    <div class="roll-title">
+      <span>{{localize 'FS.Damage'}}: {{damageRoll.formula}}</span>
+    </div>
+    <div class="roll-result">
+      <span>{{xtotal damageRoll}}</span>
+    </div>
+  </div>
+  {{/if}} {{#if takeDamage}}
+  <div class="outcome-text">
+    <span class="take-damage">{{takeDamage}}</span>
+  </div>
+  {{/if}}
+</form>

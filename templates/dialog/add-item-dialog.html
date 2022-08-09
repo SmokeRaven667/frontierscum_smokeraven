@@ -1,0 +1,24 @@
+<form class="custom-dialog">
+  <div class="form-group">
+    <label>{{localize 'FS.Name'}}:</label>
+    <input
+      type="text"
+      name="itemname"
+      value=""
+      placeholder="{{localize 'FS.Name'}}"
+      data-dtype="String"
+    />
+  </div>
+  <div class="form-group">
+    <label>{{localize 'FS.Type'}}:</label>
+    <br />
+    <select name="itemtype" class="add-type">
+      <option value="armor">{{localize 'FS.ItemTypeArmor'}}</option>
+      <option value="container">{{localize 'FS.ItemTypeContainer'}}</option>
+      <option value="misc" selected>{{localize 'FS.ItemTypeMisc'}}</option>
+      <option value="scroll">{{localize 'FS.ItemTypeScroll'}}</option>
+      <option value="shield">{{localize 'FS.ItemTypeShield'}}</option>
+      <option value="weapon">{{localize 'FS.ItemTypeWeapon'}}</option>
+    </select>
+  </div>
+</form>
