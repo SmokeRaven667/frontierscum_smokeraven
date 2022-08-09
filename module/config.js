@@ -231,7 +231,7 @@ FS.scvmFactory = {
   waterItemName: "Canteen",
   saddleItemName: "Saddle and Saddlebags",
   characterCreationPack: "frontierscum.character-creation",
-  bonusItemsTable: "Bonus Items",
+  bonusItemsTable: "Bonus Tools",
   startingEquipmentTable1: "Starting Equipment (1)",
   startingEquipmentTable2: "Starting Equipment (2)",
   startingEquipmentTable3: "Starting Equipment (3)",

@@ -34,7 +34,9 @@ const pickRandomClass = async () => {
 export const findClassPacks = () => {
     const classPacks = [];
     const packKeys = game.packs.keys();
+    
     for (const packKey of packKeys) {
+        console.log(`packKey: ${packKey}`)
         // moduleOrSystemName.packName
         const keyParts = packKey.split(".");
         if (keyParts.length === 2) {
@@ -45,6 +47,7 @@ export const findClassPacks = () => {
             }
         }
     }
+    console.log(classPacks)
     return classPacks;
 };
 
@@ -178,6 +181,24 @@ const rollScvmForClass = async (clazz) => {
         );
         const weaponDraw = await weaponTable.draw({displayChat: false});
         const weapons = await docsFromResults(weaponDraw.results);
+        
+        let weaponName = weapons[0].data.name;
+        if (weaponName.includes("Pistol") || weaponName.includes("Revolver"))
+        {
+            const pistolAmmo = await getItem("Ammo: Pistol Slugs");
+            console.log(pistolAmmo)
+            allDocs.push(...pistolAmmo)
+        }
+        if (weaponName.includes("Rifle"))
+        {
+            const rifleAmmo = await getItem("Ammo: Rifle Rounds");
+            allDocs.push(...rifleAmmo)
+        }
+        if (weaponName.includes("Shotgun"))
+        {
+            const shotgunAmmo = await getItem("Ammo: Shotgun Shells");
+            allDocs.push(...shotgunAmmo)
+        }
         allDocs.push(...weapons);
     }
 
@@ -459,14 +480,17 @@ const updateActorWithScvm = async (actor, s) => {
     }
 };
 
+const getItem = async (itemName) => {
+    const results = [];
+    let item = await game.items.getName(itemName);
+    results.push(item)
+    return results;
+}
+
 const docsFromResults = async (results) => {
     const ents = [];
     for (const result of results) {
-        console.log('PROCESSING RESULT IN DOCFROMRESULTS')
-        console.log(result)
         const entity = await entityFromResult(result);
-        console.log('ENTITY FROM RESULT')
-        console.log(entity)
         if (entity) {
             ents.push(entity);
         }
@@ -480,9 +504,6 @@ const entityFromResult = async (result) => {
 
     // TODO: handle scroll lookup / rolls
     // TODO: can we make a recursive random scroll thingy
-    console.log('entity data type')
-    console.log(result.data.type)
-    console.log(result.data.text)
     if (result.data.type === 0) {
 
         // hack for not having recursive roll tables set up
@@ -510,8 +531,6 @@ const entityFromResult = async (result) => {
         }
     }
     else if (result.data.type === 1 || result.data.type === 2) {
-        console.log('RESULT DATA COLLECTION')
-        console.log(result.data.collection)
         // grab the item from the compendium
         const collection = game.packs.get(result.data.collection);
         if (collection) {
@@ -519,8 +538,6 @@ const entityFromResult = async (result) => {
             // const item = await collection.getEntity(result._id);
             const content = await collection.getDocuments();
             const entity = content.find((i) => i.name === result.data.text);
-            console.log('did we find entity')
-            console.log(entity)
             return entity;
         } else {
             let itemBonus = await game.items.getName(result.data.text);

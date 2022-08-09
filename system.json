@@ -21,6 +21,20 @@
             "entity": "RollTable"
         },
         {
+            "name": "class-butcher-cook",
+            "label": "Class - Butcher Cook",
+            "system": "frontierscum",
+            "path": "./packs/class-butcher-cook.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-calloused-ranch-hand",
+            "label": "Class - Calloused Ranch Hand",
+            "system": "frontierscum",
+            "path": "./packs/class-calloused-ranch-hand.db",
+            "entity": "Item"
+        },
+        {
             "name": "class-carcass-trapper",
             "label": "Class - Carcass Trapper",
             "system": "frontierscum",
@@ -28,10 +42,66 @@
             "entity": "Item"
         },
         {
+            "name": "class-charlatan-and-a-fraud",
+            "label": "Class - Charlatan And A Fraud",
+            "system": "frontierscum",
+            "path": "./packs/class-charlatan-and-a-fraud.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-discharged-deputy",
+            "label": "Class - Discharged Deputy",
+            "system": "frontierscum",
+            "path": "./packs/class-discharged-deputy.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-doctor-sans-diploma",
+            "label": "Class - Doctor Sans Diploma",
+            "system": "frontierscum",
+            "path": "./packs/class-doctor-sans-diploma.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-drifter",
+            "label": "Class - Drifter",
+            "system": "frontierscum",
+            "path": "./packs/class-drifter.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-factory-cog",
+            "label": "Class - Factory Cog",
+            "system": "frontierscum",
+            "path": "./packs/class-factory-cog.db",
+            "entity": "Item"
+        },
+        {
             "name": "class-frostbit-prospector",
             "label": "Class - Frostbit Prospector",
             "system": "frontierscum",
             "path": "./packs/class-frostbit-prospector.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-gambler-and-a-cheat",
+            "label": "Class - Gambler And A Cheat",
+            "system": "frontierscum",
+            "path": "./packs/class-gambler-and-a-cheat.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-ghoulish-undertaker",
+            "label": "Class - Ghoulish Undertaker",
+            "system": "frontierscum",
+            "path": "./packs/class-ghoulish-undertaker.db",
+            "entity": "Item"
+        },
+        {
+            "name": "class-suffering-clerk",
+            "label": "Class - Suffering Clerk",
+            "system": "frontierscum",
+            "path": "./packs/class-suffering-clerk.db",
             "entity": "Item"
         },
         {
