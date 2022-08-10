@@ -372,6 +372,7 @@ export default class FSActorSheet extends ActorSheet {
  * Create a new Owned Item for the given actor, based on the name/type from the form.
  */
 const _createItem = async (actor, form) => {
+  console.log(form)
   const itemData = {
     name: form.itemname.value,
     type: form.itemtype.value,

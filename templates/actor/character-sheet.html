@@ -224,7 +224,8 @@
     <a class="item" data-tab="obituary">{{ localize 'FS.TabObituary' }}</a>
     <a class="item" data-tab="violence">{{ localize 'FS.TabViolence' }}</a>
     <a class="item" data-tab="feats">{{ localize 'FS.TabFeats' }}</a>
-    <a class="item" data-tab="powers">{{ localize 'FS.Powers' }}</a>
+    <a class="item" data-tab="skills">{{ localize 'FS.TabSkills' }}</a>
+    <!-- <a class="item" data-tab="powers">{{ localize 'FS.Powers' }}</a> -->
     <a class="item" data-tab="equipment">{{ localize 'FS.TabTreasures' }}</a>
   </nav>
 
@@ -533,8 +534,53 @@
       </ol>
     </div>
 
+    {{!-- Skills Tab --}}
+    <div class="tab specials-tab" data-group="primary" data-tab="skills">
+      <ol class="items-list inventory-list">
+        <ol class="item-list">
+          {{#each data.data.skills as |item id|}}
+          <li class="item flexrow" data-item-id="{{item._id}}">
+            <img
+              src="{{item.img}}"
+              title="{{item.name}}"
+              width="24"
+              height="24"
+            />
+            <h4 class="item-name item-edit rollable">{{item.name}}</h4>
+            <div class="item-buttons">
+              {{#if item.data.rollLabel}}
+              <button
+                type="button"
+                class="item-button rollable skill-button"
+                data-roll="{{item.data.rollFormula}}"
+                data-label="{{item.data.rollLabel}}"
+                title="{{item.data.rollLabel}}"
+              >
+                {{item.data.rollLabel}}
+              </button>
+              {{/if}}
+            </div>
+            <div class="item-controls">
+              <a class="item-control item-edit" title="Edit Item"
+                ><i class="fas fa-edit"></i
+              ></a>
+              <a class="item-control item-delete" title="Delete Item"
+                ><i class="fas fa-trash"></i
+              ></a>
+            </div>
+          </li>
+          {{/each}}
+        </ol>
+        {{#unless data.data.feats.length}}
+        <div class="rule-text you-have-no">
+          {{localize 'FS.YouHaveNoFeats'}}
+        </div>
+        {{/unless}}
+      </ol>
+    </div>
+    
     {{!-- Powers Tab --}}
-    <div class="tab powers-tab" data-group="primary" data-tab="powers">
+    <!-- <div class="tab powers-tab" data-group="primary" data-tab="powers">
       <div class="powers-top-row">
         <div class="powers-gutter"></div>
         <div class="wield-power">
@@ -599,7 +645,7 @@
         </div>
         {{/unless}}
       </ol>
-    </div>
+    </div> -->
 
     {{!-- Equipment Tab --}}
     <div class="tab equipment-tab" data-group="primary" data-tab="equipment">

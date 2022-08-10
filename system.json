@@ -238,38 +238,10 @@
             "entity": "RollTable"
         },
         {
-            "name": "rolls-carcass-trapper",
-            "label": "Rolls - Carcass Trapper",
-            "system": "frontierscum",
-            "path": "./packs/rolls-carcass-trapper.db",
-            "entity": "RollTable"
-        },
-        {
-            "name": "rolls-suffering-clerk",
-            "label": "Rolls - Suffering Clerk",
-            "system": "frontierscum",
-            "path": "./packs/rolls-suffering-clerk.db",
-            "entity": "RollTable"
-        },
-        {
             "name": "rolls-butcher-cook",
             "label": "Rolls - Butcher Cook",
             "system": "frontierscum",
             "path": "./packs/rolls-butcher-cook.db",
-            "entity": "RollTable"
-        },
-        {
-            "name": "rolls-doctor-sans-diploma",
-            "label": "Rolls - Doctor Sans Diploma",
-            "system": "frontierscum",
-            "path": "./packs/rolls-doctor-sans-diploma.db",
-            "entity": "RollTable"
-        },
-        {
-            "name": "rolls-ghoulish-undertaker",
-            "label": "Rolls - Ghoulish Undertaker",
-            "system": "frontierscum",
-            "path": "./packs/rolls-ghoulish-undertaker.db",
             "entity": "RollTable"
         },
         {
@@ -280,10 +252,10 @@
             "entity": "RollTable"
         },
         {
-            "name": "rolls-gambler-and-a-cheat",
-            "label": "Rolls - Gambler And A Cheat",
+            "name": "rolls-carcass-trapper",
+            "label": "Rolls - Carcass Trapper",
             "system": "frontierscum",
-            "path": "./packs/rolls-gambler-and-a-cheat.db",
+            "path": "./packs/rolls-carcass-trapper.db",
             "entity": "RollTable"
         },
         {
@@ -294,10 +266,59 @@
             "entity": "RollTable"
         },
         {
+            "name": "rolls-discharged-deputy",
+            "label": "Rolls - Discharged Deputy",
+            "system": "frontierscum",
+            "path": "./packs/rolls-discharged-deputy.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-doctor-sans-diploma",
+            "label": "Rolls - Doctor Sans Diploma",
+            "system": "frontierscum",
+            "path": "./packs/rolls-doctor-sans-diploma.db",
+            "entity": "RollTable"
+        },
+        {
             "name": "rolls-drifter",
             "label": "Rolls - Drifter",
             "system": "frontierscum",
             "path": "./packs/rolls-drifter.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-factory-cog",
+            "label": "Rolls - Factory Cog",
+            "system": "frontierscum",
+            "path": "./packs/rolls-factory-cog.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-frostbit-prospector",
+            "label": "Rolls - Frostbit Prospector",
+            "system": "frontierscum",
+            "path": "./packs/rolls-frostbit-prospector.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-gambler-and-a-cheat",
+            "label": "Rolls - Gambler And A Cheat",
+            "system": "frontierscum",
+            "path": "./packs/rolls-gambler-and-a-cheat.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-ghoulish-undertaker",
+            "label": "Rolls - Ghoulish Undertaker",
+            "system": "frontierscum",
+            "path": "./packs/rolls-ghoulish-undertaker.db",
+            "entity": "RollTable"
+        },
+        {
+            "name": "rolls-suffering-clerk",
+            "label": "Rolls - Suffering Clerk",
+            "system": "frontierscum",
+            "path": "./packs/rolls-suffering-clerk.db",
             "entity": "RollTable"
         }
     ],

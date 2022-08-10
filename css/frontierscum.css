@@ -470,6 +470,9 @@
 .frontierscum.sheet.actor .feat-button {
   min-width: 120px;
 }
+.frontierscum.sheet.actor .skill-button {
+  min-width: 120px;
+}
 .frontierscum.sheet.actor .roll-button {
   margin-left: 10px;
   width: 120px;
@@ -680,6 +683,9 @@
   color: var(--foreground-color);
 }
 .frontierscum.sheet.actor.character .sheet-body .feat-button {
+  min-width: 120px;
+}
+.frontierscum.sheet.actor.character .sheet-body .skill-button {
   min-width: 120px;
 }
 .frontierscum.sheet.actor.character .sheet-body .powers-top-row {

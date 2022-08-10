@@ -145,6 +145,7 @@
   "FS.PerRest": "Per Rest",
   "FS.RollMacro": "Roll Macro",
   "FS.Powers": "Powers",
+  "FS.Skills": "Skills",
   "FS.PowersPerDayText": "PRE+d4 times per day",
   "FS.PowerUsesRemaining": "Uses Remaining",
   "FS.Quantity": "Quantity",
@@ -210,6 +211,7 @@
   "FS.TabDescription": "Description",
   "FS.TabDetails": "Details",
   "FS.TabFeats": "Feats",
+  "FS.TabSkills": "Skills",
   "FS.TabObituary": "Obituary",
   "FS.TabPowers": "Powers",
   "FS.TabTreasures": "Treasures",
@@ -231,6 +233,6 @@
   "FS.WieldAPowerFumble": "Fumble - Roll an Arcane Catastrophe.",
   "FS.WieldAPowerText": "PRE DR12, or -d2 HP and no Powers for 1 hr",
   "FS.YouAreHit": "You are Hit",
-  "FS.YouHaveNoFeats": "You have no Feats",
+  "FS.YouHaveNoFeats": "You have no Skills",
   "FS.YouHaveNoScrolls": "You have no Scrolls"
 }

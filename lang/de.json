@@ -145,6 +145,7 @@
   "FS.PerRest": "Pro Rast",
   "FS.RollMacro": "Würfel Macro",
   "FS.Powers": "Mächte",
+  "FS.Skills": "Skills",
   "FS.PowersPerDayText": "AUS+d4 mal pro Tag",
   "FS.PowerUsesRemaining": "Nutzungen verbleibend",
   "FS.Quantity": "Anzahl",
@@ -209,7 +210,6 @@
   "FS.TabContents": "Inhalt",
   "FS.TabDescription": "Beschreibung",
   "FS.TabDetails": "Details",
-  "FS.TabFeats": "Taten",
   "FS.TabObituary": "Todesanzeige",
   "FS.TabPowers": "Mächte",
   "FS.TabTreasures": "Schätze",
@@ -231,6 +231,6 @@
   "FS.WieldAPowerText": "AUS DR12, oder -d2 HP und keine Machtausübung für eine Stunde",
   "FS.WieldAPowerDizzy": "sei benommen und übe keine Macht für eine Stunde aus",
   "FS.YouAreHit": "Du bist getroffen",
-  "FS.YouHaveNoFeats": "Du hast keine Taten übrig",
+  "FS.YouHaveNoFeats": "You have no skills",
   "FS.YouHaveNoScrolls": "Du hast keine Schriftrollen"
 }

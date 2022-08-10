@@ -160,6 +160,7 @@ FS.itemTypes = {
   class: "class",
   container: "container",
   feat: "feat",
+  skill: "skill",
   misc: "misc",
   scroll: "scroll",
   shield: "shield",
@@ -172,6 +173,7 @@ FS.itemTypeKeys = {
   class: "FS.ItemTypeClass",
   container: "FS.ItemTypeContainer",
   feat: "FS.ItemTypeFeat",
+  skill: "FS.ItemTypeSkill",
   misc: "FS.ItemTypeMisc",
   scroll: "FS.ItemTypeScroll",
   shield: "FS.ItemTypeShield",
@@ -251,5 +253,5 @@ FS.scvmFactory = {
   horseLikesTable: "Horse Likes",
   horseCoatTable: "Horse Coat",
   horseName1Table: "Horse Name 1",
-  horseName1Table: "Horse Name 2"
+  horseName2Table: "Horse Name 2"
 };

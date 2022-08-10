@@ -209,7 +209,8 @@
   "FS.TabContents": "Contents",
   "FS.TabDescription": "Description",
   "FS.TabDetails": "Détails",
-  "FS.TabFeats": "Dons",
+  "FS.TabFeats": "Feats",
+  "FS.TabSkills": "Skills",
   "FS.TabObituary": "Nécrologie",
   "FS.TabPowers": "Pouvoirs",
   "FS.TabTreasures": "Trésors",
@@ -231,6 +232,6 @@
   "FS.WieldAPowerFumble": "Fumble - Lancez sur Arcane Catastrophe.",
   "FS.WieldAPowerText": "PRE DR12, or -d2 HP and no Powers for 1 hr",
   "FS.YouAreHit": "Vous êtes touchés !",
-  "FS.YouHaveNoFeats": "Vous n'avez pas de don",
+  "FS.YouHaveNoFeats": "Vous n'avez pas de skills",
   "FS.YouHaveNoScrolls": "Vous n'avez pas de parchemin"
 }

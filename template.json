@@ -77,6 +77,7 @@
       "class",
       "container",
       "feat",
+      "skill",
       "misc",
       "scroll",
       "shield",
@@ -126,6 +127,12 @@
       "capacity": 1
     },
     "feat": {
+      "description": "",
+      "rollFormula": "",
+      "rollMacro": "",
+      "rollLabel": ""
+    },
+    "skill": {
       "description": "",
       "rollFormula": "",
       "rollMacro": "",

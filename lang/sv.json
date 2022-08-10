@@ -209,7 +209,8 @@
   "FS.TabContents": "Innehåll",
   "FS.TabDescription": "Beskrivning",
   "FS.TabDetails": "Detaljer",
-  "FS.TabFeats": "Förmågor",
+  "FS.TabFeats": "Feats",
+  "FS.TabSkills": "Skills",
   "FS.TabObituary": "Dödsruna",
   "FS.TabPowers": "Krafter",
   "FS.TabTreasures": "Skatter",
@@ -231,6 +232,6 @@
   "FS.WieldAPowerFumble": "Fummel - Slå Arcane Catastrophe.",
   "FS.WieldAPowerText": "NÄR SG12 eller -t2 TP och inga Krafter i 1 tim.",
   "FS.YouAreHit": "You are Hit",
-  "FS.YouHaveNoFeats": "Du har inga Förmågor",
+  "FS.YouHaveNoFeats": "You have no skills",
   "FS.YouHaveNoScrolls": "Du har inga Rullar"
 }

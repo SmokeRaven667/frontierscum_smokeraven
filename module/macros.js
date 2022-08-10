@@ -15,7 +15,7 @@ export async function createFrontierScumMacro(data, slot) {
     );
   }
   const item = data.data;
-  const supportedItemTypes = ["armor", "feat", "scroll", "shield", "weapon"];
+  const supportedItemTypes = ["armor", "feat", "skill", "scroll", "shield", "weapon"];
   if (!supportedItemTypes.includes(item.type)) {
     return ui.notifications.warn(
       `Macros only supported for item types: ${supportedItemTypes.join(", ")}`
@@ -28,6 +28,15 @@ export async function createFrontierScumMacro(data, slot) {
     // we only allow rollable feats
     return ui.notifications.warn(
       "Macros only supported for feats with roll label and either a formula or macro."
+    );
+  }
+  if (
+    item.type === "skill" &&
+    (!item.data.rollLabel || (!item.data.rollFormula && !item.data.rollMacro))
+  ) {
+    // we only allow rollable skill
+    return ui.notifications.warn(
+      "Macros only supported for skills with roll label and either a formula or macro."
     );
   }
 
@@ -86,5 +95,8 @@ export function rollItemMacro(itemName) {
     actor.wieldPower();
   } else if (item.data.type === "feat") {
     actor.useFeat(item.id);
+  } else if (item.data.type === "skill") {
+    actor.useSkill(item.id);
   }
+  
 }

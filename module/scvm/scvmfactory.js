@@ -154,25 +154,19 @@ const rollScvmForClass = async (clazz) => {
     const ccContent = await ccPack.getDocuments();
 
     // 3 starting equipment tables
-    if (FS.scvmFactory.bonusItemsTable) {
-        // const ttCowboyTable1 = ccContent.find(
-        //     (i) => i.name === FS.scvmFactory.cowboyTraitsTable1
-        // );
-        // const ttCowboyResults1 = await compendiumTableDrawMany(ttCowboyTable1, 1);
-        // const cowboyTrait1 = ttCowboyResults1[0].data.text;
+    // if (FS.scvmFactory.bonusItemsTable) {
+    //     const equipTable1 = ccContent.find(
+    //         (i) => i.name === FS.scvmFactory.bonusItemsTable
+    //     );
+    //     const eqDraw1 = await equipTable1.draw({displayChat: false});
+    //     console.log('BONUS ITEMS DRAW')
+    //     console.log(eqDraw1.results)
+    //     const eq1 = await docsFromResults(eqDraw1.results);
+    //     allDocs.push(...eq1);
+    // }
 
-        const equipTable1 = ccContent.find(
-            (i) => i.name === FS.scvmFactory.bonusItemsTable
-        );
-        const eqDraw1 = await equipTable1.draw({displayChat: false});
-        console.log('BONUS ITEMS DRAW')
-        console.log(eqDraw1.results)
-        const eq1 = await docsFromResults(eqDraw1.results);
-        allDocs.push(...eq1);
-    }
-
-    const rolledScroll =
-        allDocs.filter((i) => i.data.type === "scroll").length > 0;
+    // const rolledScroll =
+    //     allDocs.filter((i) => i.data.type === "scroll").length > 0;
 
     // starting weapon
     if (FS.scvmFactory.startingWeaponTable) {
@@ -202,6 +196,7 @@ const rollScvmForClass = async (clazz) => {
         allDocs.push(...weapons);
     }
 
+    let horseDescription;
     // starting horse
     if (FS.scvmFactory.startingHorseTable) {
         const startingHorseTypeTable = ccContent.find(
@@ -211,30 +206,37 @@ const rollScvmForClass = async (clazz) => {
         const horse = await docsFromResults(startingHorseTypeDraw.results);
         console.log('-- HORSE --')
         console.log(horse)
-        allDocs.push(...horse);
-    }
+        let horseType = horse[0].data.name;
+        
+        // horse name 1
+        const horseName1Table = ccContent.find(
+            (i) => i.name === FS.scvmFactory.horseName1Table
+        );
+        const horseName1Draw = await horseName1Table.draw({displayChat: false});
+        let horseName1 = horseName1Draw.results[0].data.text;
+        // horse name 2
+        const horseName2Table = ccContent.find(
+            (i) => i.name === FS.scvmFactory.horseName2Table
+        );
+        const horseName2Draw = await horseName2Table.draw({displayChat: false});
+        let horseName2 = horseName2Draw.results[0].data.text;
+        // horse coat
+        const horseCoatTable = ccContent.find(
+            (i) => i.name === FS.scvmFactory.horseCoatTable
+        );
+        const horseCoatDraw = await horseCoatTable.draw({displayChat: false});
+        let horseCoat = horseCoatDraw.results[0].data.text;
+        // horse likes
+        const horseLikesTable = ccContent.find(
+            (i) => i.name === FS.scvmFactory.horseLikesTable
+        );
+        const horseLikesDraw = await horseLikesTable.draw({displayChat: false});
+        let horseLikes = horseLikesDraw.results[0].data.text;
 
-    // starting armor
-    // if (FS.scvmFactory.startingArmorTable && clazz.data.data.armorTableDie) {
-    //     let armorDie = clazz.data.data.armorTableDie;
-    //     if (rolledScroll) {
-    //         // TODO: this check for "is it a higher die roll" assumes a d4 armor table
-    //         // and doesn't handle not having a leading 1 in the string
-    //         if (armorDie === "1d3" || armorDie === "1d4") {
-    //             armorDie = FS.scvmFactory.armorDieIfRolledScroll;
-    //         }
-    //     }
-    //     const armorRoll = new Roll(armorDie);
-    //     const armorTable = ccContent.find(
-    //         (i) => i.name === FS.scvmFactory.startingArmorTable
-    //     );
-    //     const armorDraw = await armorTable.draw({
-    //         roll: armorRoll,
-    //         displayChat: false,
-    //     });
-    //     const armor = await docsFromResults(armorDraw.results);
-    //     allDocs.push(...armor);
-    // }
+        horseDescription = `${horseName1} ${horseName2} is a ${horseCoat.toLowerCase()} ${horseType.toLowerCase()} that likes ${horseLikes.toLowerCase()}.`;
+        allDocs.push(...horse);
+        
+    }
 
     // class-specific starting items
     if (clazz.data.data.startingItems) {
@@ -326,7 +328,7 @@ const rollScvmForClass = async (clazz) => {
         descriptionLines.push(descriptionLine);
         descriptionLines.push("<p>&nbsp;</p>");
     }
-
+    descriptionLines.push(`<br/>HORSE: ${horseDescription}<br/><br/>SKILL ORIGINS<br/>`);
     // class-specific starting rolls
     const startingRollItems = [];
     if (clazz.data.data.startingRolls) {
@@ -337,6 +339,7 @@ const rollScvmForClass = async (clazz) => {
             // console.log(`rolls: ${rolls}`)
             // assume 1 roll unless otherwise specified in the csv
             const numRolls = rolls ? parseInt(rolls) : 1;
+            console.log(`numRolls: ${numRolls}`)
             const pack = game.packs.get(packName);
             if (pack) {
                 const content = await pack.getDocuments();
@@ -349,6 +352,7 @@ const rollScvmForClass = async (clazz) => {
                     for (const result of results) {
                         console.log('--- RESULT DATA TYPE ---')
                         console.log(result.data.type)
+                        console.log(result)
                         // draw result type: text (0), entity (1), or compendium (2)
                         if (result.data.type === 0) {
                             // text
