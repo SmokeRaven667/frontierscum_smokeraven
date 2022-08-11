@@ -62,9 +62,13 @@ export class FSActorSheetCharacter extends FSActorSheet {
       .filter((item) => item.type === CONFIG.FS.itemTypes.feat)
       .sort(byName);
 
-    sheetData.data.skills = sheetData.items
-      .filter((item) => item.type === CONFIG.FS.itemTypes.skill)
+    sheetData.data.actions = sheetData.items
+      .filter((item) => item.type === CONFIG.FS.itemTypes.action)
       .sort(byName);
+
+    // sheetData.data.skills = sheetData.items
+    //   .filter((item) => item.type === CONFIG.FS.itemTypes.skill)
+    //   .sort(byName);
 
     sheetData.data.class = sheetData.items.find(
       (item) => item.type === CONFIG.FS.itemTypes.class
@@ -126,6 +130,8 @@ export class FSActorSheetCharacter extends FSActorSheet {
     html.find(".get-better-button").on("click", this._onGetBetter.bind(this));
     // feats tab
     html.find(".feat-button").on("click", this._onFeatRoll.bind(this));
+    // actions tab
+    html.find(".action-button").on("click", this._onActionRoll.bind(this));
     // skills tab
     html.find(".skill-button").on("click", this._onSkillRoll.bind(this));
     // powers tab
@@ -220,6 +226,14 @@ export class FSActorSheetCharacter extends FSActorSheet {
     const li = button.parents(".item");
     const itemId = li.data("itemId");
     this.actor.useSkill(itemId);
+  }
+
+  _onActionRoll(event) {
+    event.preventDefault();
+    const button = $(event.currentTarget);
+    const li = button.parents(".item");
+    const itemId = li.data("itemId");
+    this.actor.useAction(itemId);
   }
 
   _onWieldPowerRoll(event) {

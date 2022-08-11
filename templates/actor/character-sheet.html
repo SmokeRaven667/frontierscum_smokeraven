@@ -223,7 +223,8 @@
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="obituary">{{ localize 'FS.TabObituary' }}</a>
     <a class="item" data-tab="violence">{{ localize 'FS.TabViolence' }}</a>
-    <a class="item" data-tab="feats">{{ localize 'FS.TabFeats' }}</a>
+    <!-- <a class="item" data-tab="feats">{{ localize 'FS.TabFeats' }}</a> -->
+    <a class="item" data-tab="actions">{{ localize 'FS.TabActions' }}</a>
     <a class="item" data-tab="skills">{{ localize 'FS.TabSkills' }}</a>
     <!-- <a class="item" data-tab="powers">{{ localize 'FS.Powers' }}</a> -->
     <a class="item" data-tab="equipment">{{ localize 'FS.TabTreasures' }}</a>
@@ -489,11 +490,11 @@
       </div>
     </div>
 
-    {{!-- Feats Tab --}}
-    <div class="tab specials-tab" data-group="primary" data-tab="feats">
+    {{!-- Actions Tab --}}
+    <div class="tab specials-tab" data-group="primary" data-tab="actions">
       <ol class="items-list inventory-list">
         <ol class="item-list">
-          {{#each data.data.feats as |item id|}}
+          {{#each data.data.actions as |item id|}}
           <li class="item flexrow" data-item-id="{{item._id}}">
             <img
               src="{{item.img}}"
@@ -506,7 +507,7 @@
               {{#if item.data.rollLabel}}
               <button
                 type="button"
-                class="item-button rollable feat-button"
+                class="item-button rollable action-button"
                 data-roll="{{item.data.rollFormula}}"
                 data-label="{{item.data.rollLabel}}"
                 title="{{item.data.rollLabel}}"
@@ -526,16 +527,20 @@
           </li>
           {{/each}}
         </ol>
-        {{#unless data.data.feats.length}}
+        {{#unless data.data.actions.length}}
         <div class="rule-text you-have-no">
-          {{localize 'FS.YouHaveNoFeats'}}
+          {{localize 'FS.YouHaveNoActions'}}
         </div>
         {{/unless}}
       </ol>
     </div>
 
     {{!-- Skills Tab --}}
-    <div class="tab specials-tab" data-group="primary" data-tab="skills">
+    <div class="tab class-tab" data-group="primary" data-tab="skills">
+      {{editor content=data.data.skills target="data.skills"
+      button=true owner=owner editable=true}}
+    </div>
+    <!-- <div class="tab specials-tab" data-group="primary" data-tab="skills">
       <ol class="items-list inventory-list">
         <ol class="item-list">
           {{#each data.data.skills as |item id|}}
@@ -571,13 +576,13 @@
           </li>
           {{/each}}
         </ol>
-        {{#unless data.data.feats.length}}
+        {{#unless data.data.skills.length}}
         <div class="rule-text you-have-no">
-          {{localize 'FS.YouHaveNoFeats'}}
+          {{localize 'FS.YouHaveNoSkills'}}
         </div>
         {{/unless}}
       </ol>
-    </div>
+    </div> -->
     
     {{!-- Powers Tab --}}
     <!-- <div class="tab powers-tab" data-group="primary" data-tab="powers">

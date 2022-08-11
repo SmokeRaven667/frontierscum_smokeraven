@@ -110,7 +110,6 @@ export class FSActor extends Actor {
 
     if (this.type === "character") {
       let className = ''
-      console.log('IT IS A CHARACTER')
       try {
         console.log('trying to find class name')
         console.log(this.items)
@@ -1029,6 +1028,53 @@ export class FSActor extends Actor {
     }
   }
 
+  async useAction(itemId) {
+    const item = this.items.get(itemId);
+    if (!item || !item.data.data.rollLabel) {
+      return;
+    }
+
+    if (item.data.data.rollMacro) {
+      // roll macro
+      if (item.data.data.rollMacro.includes(",")) {
+        // assume it's a CSV string for {pack},{macro name}
+        const [packName, macroName] = item.data.data.rollMacro.split(",");
+        const pack = game.packs.get(packName);
+        if (pack) {
+          const content = await pack.getDocuments();
+          const macro = content.find((i) => i.name === macroName);
+          if (macro) {
+            macro.execute();
+          } else {
+            console.log(
+              `Could not find macro ${macroName} in pack ${packName}.`
+            );
+          }
+        } else {
+          console.log(`Pack ${packName} not found.`);
+        }
+      } else {
+        // assume it's the name of a macro in the current world/game
+        const macro = game.macros.find(
+          (m) => m.name === item.data.data.rollMacro
+        );
+        if (macro) {
+          macro.execute();
+        } else {
+          console.log(`Could not find macro ${item.data.data.rollMacro}.`);
+        }
+      }
+    } else if (item.data.data.rollFormula) {
+      // roll formula
+      await this._rollOutcome(
+        item.data.data.rollFormula,
+        this.getRollData(),
+        item.data.data.rollLabel,
+        () => ``
+      );
+    }
+  }
+
   async useSkill(itemId) {
     const item = this.items.get(itemId);
     if (!item || !item.data.data.rollLabel) {
@@ -1086,12 +1132,21 @@ export class FSActor extends Actor {
     const roll = new Roll(dieRoll, rollData);
     roll.evaluate({ async: false });
     await showDice(roll);
+  
+    let rr = roll.result;
+    let rollNum = rr.substring(0, rr.indexOf('+')).trim();
+    let criticalText = '';  
+    if (rollNum == 20) {
+      criticalText = game.i18n.localize("FS.CriticalSuccess")
+    }
     const rollResult = {
       cardTitle: cardTitle,
       outcomeText: outcomeTextFn(roll),
       roll,
       rollFormula: rollFormula ?? roll.formula,
+      criticalText: criticalText
     };
+    
     const html = await renderTemplate(OUTCOME_ROLL_CARD_TEMPLATE, rollResult);
     ChatMessage.create({
       content: html,

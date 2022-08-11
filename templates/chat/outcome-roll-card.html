@@ -7,6 +7,11 @@
     <div class="roll-result">
       <span>{{xtotal roll}}</span>
     </div>
+    {{#if criticalText}}
+    <div class="outcome-text">
+      <span class="roll-result">{{criticalText}}</span>
+    </div>
+    {{/if}}
     {{#if outcomeText}}
     <div class="outcome-text">
       <span class="take-damage">{{outcomeText}}</span>

@@ -15,7 +15,7 @@ export async function createFrontierScumMacro(data, slot) {
     );
   }
   const item = data.data;
-  const supportedItemTypes = ["armor", "feat", "skill", "scroll", "shield", "weapon"];
+  const supportedItemTypes = ["armor", "feat", "skill", "action", "scroll", "shield", "weapon"];
   if (!supportedItemTypes.includes(item.type)) {
     return ui.notifications.warn(
       `Macros only supported for item types: ${supportedItemTypes.join(", ")}`
@@ -39,6 +39,16 @@ export async function createFrontierScumMacro(data, slot) {
       "Macros only supported for skills with roll label and either a formula or macro."
     );
   }
+  if (
+    item.type === "action" &&
+    (!item.data.rollLabel || (!item.data.rollFormula && !item.data.rollMacro))
+  ) {
+    // we only allow rollable skill
+    return ui.notifications.warn(
+      "Macros only supported for actions  with roll label and either a formula or macro."
+    );
+  }
+
 
   // Create the macro command
   const command = `game.frontierscum.rollItemMacro("${item.name}");`;
@@ -97,6 +107,8 @@ export function rollItemMacro(itemName) {
     actor.useFeat(item.id);
   } else if (item.data.type === "skill") {
     actor.useSkill(item.id);
+  } else if (item.data.type === "action") {
+    actor.useAction(item.id);
   }
   
 }

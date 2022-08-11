@@ -196,6 +196,17 @@ const rollScvmForClass = async (clazz) => {
         allDocs.push(...weapons);
     }
 
+    // starting hat
+    if (FS.scvmFactory.startingHatTable) {
+        const hatTable = ccContent.find(
+            (i) => i.name === FS.scvmFactory.startingHatTable
+        );
+        const hatDraw = await hatTable.draw({displayChat: false});
+        const hat = await docsFromResults(hatDraw.results);
+        
+        allDocs.push(...hat);
+    }
+
     let horseDescription;
     // starting horse
     if (FS.scvmFactory.startingHorseTable) {
