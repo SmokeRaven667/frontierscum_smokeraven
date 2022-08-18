@@ -21,6 +21,13 @@
             "entity": "RollTable"
         },
         {
+            "name": "gameplay-tables",
+            "label": "Gameplay Tables",
+            "system": "frontierscum",
+            "path": "./packs/gameplay-tables.db",
+            "entity": "RollTable"
+        },
+        {
             "name": "class-butcher-cook",
             "label": "Class - Butcher Cook",
             "system": "frontierscum",
@@ -228,6 +235,13 @@
             "label": "Macros - Occult Herbmaster",
             "system": "frontierscum",
             "path": "./packs/macros-occult-herbmaster.db",
+            "entity": "Macro"
+        },
+        {
+            "name": "macros-frontier-scum",
+            "label": "Macros - Frontier Scum",
+            "system": "frontierscum",
+            "path": "./packs/macros-frontier-scum.db",
             "entity": "Macro"
         },
         {
