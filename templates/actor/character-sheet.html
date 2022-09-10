@@ -60,10 +60,10 @@
         <div class="rest-buttons">
           <button
             type="button"
-            class="button item-button broken-button rollable"
-            title="{{localize 'FS.Broken'}}"
+            class="button item-button death-check-button rollable"
+            title="{{localize 'FS.DeathCheck'}}"
           >
-            {{localize 'FS.Broken'}}
+            {{localize 'FS.DeathCheck'}}
           </button>
           <button
             type="button"
@@ -75,7 +75,7 @@
         </div>
       </div>
       <div class="omens-row">
-        <span
+        <!-- <span
           class="stat-label omens-label"
           title="{{ localize 'FS.OmensHelpText' }}"
           >{{ localize "FS.Omens" }}:</span
@@ -89,7 +89,7 @@
         />
         <span class="rule-text omen-rule rollable"
           >{{data.data.class.data.omenDie}} {{ localize "FS.PerRest"}}</span
-        >
+        > -->
         <button
           type="button"
           class="button item-button get-better-button rollable"
@@ -98,64 +98,64 @@
           {{localize 'FS.GetBetter'}}
         </button>
       </div>
-      <div class="miseries-row">
-        <label class="stat-label miseries-label"
-          >{{ localize "FS.Miseries" }}:</label
+      <div class="acesrow">
+        <label class="stat-label aces-label"
+          >{{ localize "FS.Aces" }}:</label
         >
-        <ul class="miseries">
+        <ul class="aces">
           <li>
             <label
-              ><input type="radio" name="data.miseries.value" value="0"
-              data-dtype="Number" {{#ifEq data.data.miseries.value
+              ><input type="radio" name="data.aces.value" value="0"
+              data-dtype="Number" {{#ifEq data.data.aces.value
               0}}checked{{/ifEq}}/><span>0</span></label
             >
           </li>
           <li>
             <label
-              ><input type="radio" name="data.miseries.value" value="1"
-              data-dtype="Number" {{#ifEq data.data.miseries.value
+              ><input type="radio" name="data.aces.value" value="1"
+              data-dtype="Number" {{#ifEq data.data.aces.value
               1}}checked{{/ifEq}}/><span>1</span></label
             >
           </li>
           <li>
             <label
-              ><input type="radio" name="data.miseries.value" value="2"
-              data-dtype="Number" {{#ifEq data.data.miseries.value
+              ><input type="radio" name="data.aces.value" value="2"
+              data-dtype="Number" {{#ifEq data.data.aces.value
               2}}checked{{/ifEq}}/><span>2</span></label
             >
           </li>
           <li>
             <label
-              ><input type="radio" name="data.miseries.value" value="3"
-              data-dtype="Number" {{#ifEq data.data.miseries.value
+              ><input type="radio" name="data.aces.value" value="3"
+              data-dtype="Number" {{#ifEq data.data.aces.value
               3}}checked{{/ifEq}}/><span>3</span></label
             >
           </li>
           <li>
             <label
-              ><input type="radio" name="data.miseries.value" value="4"
-              data-dtype="Number" {{#ifEq data.data.miseries.value
+              ><input type="radio" name="data.aces.value" value="4"
+              data-dtype="Number" {{#ifEq data.data.aces.value
               4}}checked{{/ifEq}}/><span>4</span></label
             >
           </li>
           <li>
             <label
-              ><input type="radio" name="data.miseries.value" value="5"
-              data-dtype="Number" {{#ifEq data.data.miseries.value
+              ><input type="radio" name="data.aces.value" value="5"
+              data-dtype="Number" {{#ifEq data.data.aces.value
               5}}checked{{/ifEq}}/><span>5</span></label
             >
           </li>
           <li>
             <label
-              ><input type="radio" name="data.miseries.value" value="6"
-              data-dtype="Number" {{#ifEq data.data.miseries.value
+              ><input type="radio" name="data.aces.value" value="6"
+              data-dtype="Number" {{#ifEq data.data.aces.value
               6}}checked{{/ifEq}}/><span>6</span></label
             >
           </li>
           <li>
             <label
-              ><input type="radio" name="data.miseries.value" value="7"
-              data-dtype="Number" {{#ifEq data.data.miseries.value
+              ><input type="radio" name="data.aces.value" value="7"
+              data-dtype="Number" {{#ifEq data.data.aces.value
               7}}checked{{/ifEq}}/><span>X</span></label
             >
           </li>

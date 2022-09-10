@@ -84,8 +84,8 @@ const migrateActorData = (data) => {
       value: data.data.powerUsesRemaining,
     };
   }
-  if ("miseries" in data.data && typeof data.data.miseries === "number") {
-    updateData["data.miseries"] = { max: 7, value: data.data.miseries };
+  if ("aces" in data.data && typeof data.data.aces === "number") {
+    updateData["data.aces"] = { max: 7, value: data.data.aces };
   }
   if ("omens" in data.data && typeof data.data.omens === "number") {
     updateData["data.omens"] = { max: data.data.omens, value: data.data.omens };

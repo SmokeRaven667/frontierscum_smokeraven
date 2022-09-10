@@ -6,8 +6,8 @@ const ATTACK_DIALOG_TEMPLATE =
   "systems/frontierscum/templates/dialog/attack-dialog.html";
 const ATTACK_ROLL_CARD_TEMPLATE =
   "systems/frontierscum/templates/chat/attack-roll-card.html";
-const BROKEN_ROLL_CARD_TEMPLATE =
-  "systems/frontierscum/templates/chat/broken-roll-card.html";
+const DEATH_CHECK_ROLL_CARD_TEMPLATE =
+  "systems/frontierscum/templates/chat/death-check-roll-card.html";
 const DEFEND_DIALOG_TEMPLATE =
   "systems/frontierscum/templates/dialog/defend-dialog.html";
 const DEFEND_ROLL_CARD_TEMPLATE =
@@ -1420,78 +1420,116 @@ export class FSActor extends Actor {
     new ScvmDialog(this).render(true);
   }
 
-  async rollBroken() {
-    const brokenRoll = new Roll("1d4").evaluate({ async: false });
-    await showDice(brokenRoll);
+  async rollDeathCheck() {
+  //   "FS.DeathCheck": "Death Check",
+  // "FS.DeathCheckGoner": "You're A Goner. You're dying and there's nothing you can do about it. Roll on the You're A Goner table.",
+  // "FS.DeathCheckDead": "☠ DEAD ☠",
+  // "FS.DeathCheckZZZ": "ZZZZZZZ. You're unconscious until you have at least 1 HP.",
+  // "FS.DeathCheckBetterOrWorse": "A Lesson For Better Or Worse. Pick a random ability; roll d6 and compare to ability. If result is HIGHER, increase ability by 1; if LOWER, decrease ability by 1. Result of 1 always decreases ability but never below -6.",
+  // "FS.DeathCheckHangingInThere": "Hanging In There. Remain at your current HP.",
+  // "FS.DeathCheckSecondWind": "A Second Wind! Heal d4 and increase max HP by 1.",
+    let deathCheckRoll = new Roll("1d20").evaluate({ async: false });
+    let gritValue = this.data.data.abilities.grit.value;
+    
+    await showDice(deathCheckRoll);
+    
+    let hpValue = this.data.data.hp.value;
+    hpValue = (hpValue < 1) ? hpValue : '+0';
+    console.log(`hpValue: ${hpValue}`)
 
+    let additionalRolls = [gritValue, hpValue];
+    
+    
+    console.log(deathCheckRoll)
+    console.log(deathCheckRoll.total)
+    let total = deathCheckRoll.total + parseInt(gritValue) + parseInt(hpValue);
+    let rollDisplay = deathCheckRoll.result + gritValue + hpValue;
     let outcomeLines = [];
-    let additionalRolls = [];
-    if (brokenRoll.total === 1) {
-      const unconsciousRoll = new Roll("1d4").evaluate({ async: false });
-      const roundsWord = game.i18n.localize(
-        unconsciousRoll.total > 1 ? "FS.Rounds" : "FS.Round"
-      );
-      const hpRoll = new Roll("1d4").evaluate({ async: false });
+    //let additionalRolls = [];
+    if (deathCheckRoll.total >= 1) {
       outcomeLines = [
-        game.i18n.format("FS.BrokenFallUnconscious", {
-          rounds: unconsciousRoll.total,
-          roundsWord,
-          hp: hpRoll.total,
-        }),
+        game.i18n.format("FS.DeathCheckDead", {}),
       ];
-      additionalRolls = [unconsciousRoll, hpRoll];
-    } else if (brokenRoll.total === 2) {
-      const limbRoll = new Roll("1d6").evaluate({ async: false });
-      const actRoll = new Roll("1d4").evaluate({ async: false });
-      const hpRoll = new Roll("1d4").evaluate({ async: false });
-      const roundsWord = game.i18n.localize(
-        actRoll.total > 1 ? "FS.Rounds" : "FS.Round"
-      );
-      if (limbRoll.total <= 5) {
-        outcomeLines = [
-          game.i18n.format("FS.BrokenSeveredLimb", {
-            rounds: actRoll.total,
-            roundsWord,
-            hp: hpRoll.total,
-          }),
-        ];
-      } else {
-        outcomeLines = [
-          game.i18n.format("FS.BrokenLostEye", {
-            rounds: actRoll.total,
-            roundsWord,
-            hp: hpRoll.total,
-          }),
-        ];
-      }
-      additionalRolls = [limbRoll, actRoll, hpRoll];
-    } else if (brokenRoll.total === 3) {
-      const hemorrhageRoll = new Roll("1d2").evaluate({ async: false });
-      const hoursWord = game.i18n.localize(
-        hemorrhageRoll.total > 1 ? "FS.Hours" : "FS.Hour"
-      );
-      const lastHour =
-        hemorrhageRoll.total == 2
-          ? game.i18n.localize("FS.BrokenHemorrhageLastHour")
-          : "";
-      outcomeLines = [
-        game.i18n.format("FS.BrokenHemorrhage", {
-          hours: hemorrhageRoll.total,
-          hoursWord,
-          lastHour,
-        }),
-      ];
-      additionalRolls = [hemorrhageRoll];
-    } else {
-      outcomeLines = [game.i18n.localize("FS.BrokenYouAreDead")];
-    }
 
+      // outcomeLines = [
+      //   game.i18n.format("FS.DeathCheckDead", {
+      //     hours: hemorrhageRoll.total,
+      //     hoursWord,
+      //     lastHour,
+      //   }),
+      // ];
+
+      // const unconsciousRoll = new Roll("1d4").evaluate({ async: false });
+      // const roundsWord = game.i18n.localize(
+      //   unconsciousRoll.total > 1 ? "FS.Rounds" : "FS.Round"
+      // );
+      // const hpRoll = new Roll("1d4").evaluate({ async: false });
+      // outcomeLines = [
+      //   game.i18n.format("FS.BrokenFallUnconscious", {
+      //     rounds: unconsciousRoll.total,
+      //     roundsWord,
+      //     hp: hpRoll.total,
+      //   }),
+      // ];
+      // additionalRolls = [unconsciousRoll, hpRoll];
+    } 
+    // else if (brokenRoll.total === 2) {
+    //   const limbRoll = new Roll("1d6").evaluate({ async: false });
+    //   const actRoll = new Roll("1d4").evaluate({ async: false });
+    //   const hpRoll = new Roll("1d4").evaluate({ async: false });
+    //   const roundsWord = game.i18n.localize(
+    //     actRoll.total > 1 ? "FS.Rounds" : "FS.Round"
+    //   );
+    //   if (limbRoll.total <= 5) {
+    //     outcomeLines = [
+    //       game.i18n.format("FS.BrokenSeveredLimb", {
+    //         rounds: actRoll.total,
+    //         roundsWord,
+    //         hp: hpRoll.total,
+    //       }),
+    //     ];
+    //   } else {
+    //     outcomeLines = [
+    //       game.i18n.format("FS.BrokenLostEye", {
+    //         rounds: actRoll.total,
+    //         roundsWord,
+    //         hp: hpRoll.total,
+    //       }),
+    //     ];
+    //   }
+    //   additionalRolls = [limbRoll, actRoll, hpRoll];
+    // } else if (brokenRoll.total === 3) {
+    //   const hemorrhageRoll = new Roll("1d2").evaluate({ async: false });
+    //   const hoursWord = game.i18n.localize(
+    //     hemorrhageRoll.total > 1 ? "FS.Hours" : "FS.Hour"
+    //   );
+    //   const lastHour =
+    //     hemorrhageRoll.total == 2
+    //       ? game.i18n.localize("FS.BrokenHemorrhageLastHour")
+    //       : "";
+    //   outcomeLines = [
+    //     game.i18n.format("FS.BrokenHemorrhage", {
+    //       hours: hemorrhageRoll.total,
+    //       hoursWord,
+    //       lastHour,
+    //     }),
+    //   ];
+    //   additionalRolls = [hemorrhageRoll];
+    // } else {
+    //   outcomeLines = [game.i18n.localize("FS.BrokenYouAreDead")];
+    // }
+    let formula = `1d20 + ${gritValue} (${game.i18n.localize("FS.AbilityGrit")}) - ${hpValue} (${game.i18n.localize("FS.HP")})`;
+    console.log(`formula: ${formula}`)
+    formula = formula.replace("+  -", "- ").replace("+ -", "- ").replace("- -", "- ");
+    console.log(`formula mod: ${formula}`)
     const data = {
       additionalRolls,
-      brokenRoll,
+      rollDisplay: rollDisplay,
       outcomeLines,
+      deathCheckFormula: formula,
+      deathCheckTotal: total,
     };
-    const html = await renderTemplate(BROKEN_ROLL_CARD_TEMPLATE, data);
+    const html = await renderTemplate(DEATH_CHECK_ROLL_CARD_TEMPLATE, data);
     ChatMessage.create({
       content: html,
       sound: diceSound(),

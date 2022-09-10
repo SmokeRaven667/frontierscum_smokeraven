@@ -536,7 +536,7 @@
   font-size: 14px;
   height: 28px;
 }
-.frontierscum.sheet.actor.character .sheet-header .header-col2 .broken-button,
+.frontierscum.sheet.actor.character .sheet-header .header-col2 .death-check-button,
 .frontierscum.sheet.actor.character .sheet-header .header-col2 .rest-button {
   width: 80px;
 }
@@ -609,38 +609,38 @@
   margin-top: 10px;
   text-transform: lowercase;
 }
-.frontierscum.sheet.actor.character .sheet-header .miseries-row {
+.frontierscum.sheet.actor.character .sheet-header .aces-row {
   flex: 0 0 30px;
 }
 .frontierscum.sheet.actor.character .sheet-header .stat-label,
-.frontierscum.sheet.actor.character .sheet-header .miseries-label {
+.frontierscum.sheet.actor.character .sheet-header .aces-label {
   float: left;
 }
-.frontierscum.sheet.actor.character .sheet-header ul.miseries {
+.frontierscum.sheet.actor.character .sheet-header ul.aces {
   list-style-type: none;
   margin: 0;
   margin-top: 3px;
   padding: 0;
   float: left;
 }
-.frontierscum.sheet.actor.character .sheet-header ul.miseries li {
+.frontierscum.sheet.actor.character .sheet-header ul.aces li {
   float: left;
 }
-.frontierscum.sheet.actor.character .sheet-header ul.miseries label {
+.frontierscum.sheet.actor.character .sheet-header ul.aces label {
   display: block;
   padding: 4px;
   position: relative;
   padding-left: 20px;
 }
-.frontierscum.sheet.actor.character .sheet-header ul.miseries label input[type=radio] {
+.frontierscum.sheet.actor.character .sheet-header ul.aces label input[type=radio] {
   display: none;
 }
-.frontierscum.sheet.actor.character .sheet-header ul.miseries input[type=radio]:checked + span {
+.frontierscum.sheet.actor.character .sheet-header ul.aces input[type=radio]:checked + span {
   background: var(--highlight-background-color);
   color: var(--highlight-foreground-color);
   border: none;
 }
-.frontierscum.sheet.actor.character .sheet-header ul.miseries label span {
+.frontierscum.sheet.actor.character .sheet-header ul.aces label span {
   border: 1px solid #7a7971;
   width: 17px;
   height: 17px;
@@ -654,7 +654,7 @@
   left: 0;
   top: 50%;
 }
-.frontierscum.sheet.actor.character .sheet-header ul.miseries li:last-child label span {
+.frontierscum.sheet.actor.character .sheet-header ul.aces li:last-child label span {
   background: var(--foreground-color);
   color: var(--background-color);
 }
