@@ -1420,6 +1420,12 @@ export class FSActor extends Actor {
     new ScvmDialog(this).render(true);
   }
 
+  async rollDice(expression) {
+    let roll = new Roll(expression).evaluate({ async: false });
+    await showDice(roll);
+    return roll;
+  }
+
   async rollDeathCheck() {
   //   "FS.DeathCheck": "Death Check",
   // "FS.DeathCheckGoner": "You're A Goner. You're dying and there's nothing you can do about it. Roll on the You're A Goner table.",
@@ -1429,24 +1435,20 @@ export class FSActor extends Actor {
   // "FS.DeathCheckHangingInThere": "Hanging In There. Remain at your current HP.",
   // "FS.DeathCheckSecondWind": "A Second Wind! Heal d4 and increase max HP by 1.",
     let deathCheckRoll = new Roll("1d20").evaluate({ async: false });
-    let gritValue = this.data.data.abilities.grit.value;
-    
     await showDice(deathCheckRoll);
+    let gritValue = this.data.data.abilities.grit.value;
     
     let hpValue = this.data.data.hp.value;
     hpValue = (hpValue < 1) ? hpValue : '+0';
-    console.log(`hpValue: ${hpValue}`)
 
-    let additionalRolls = [gritValue, hpValue];
-    
-    
+    let additionalRolls = [];
     console.log(deathCheckRoll)
     console.log(deathCheckRoll.total)
     let total = deathCheckRoll.total + parseInt(gritValue) + parseInt(hpValue);
     let rollDisplay = deathCheckRoll.result + gritValue + hpValue;
     let outcomeLines = [];
     //let additionalRolls = [];
-    if (deathCheckRoll.total >= 1) {
+    if (total <= 1) {
       outcomeLines = [
         game.i18n.format("FS.DeathCheckDead", {}),
       ];
@@ -1473,6 +1475,51 @@ export class FSActor extends Actor {
       // ];
       // additionalRolls = [unconsciousRoll, hpRoll];
     } 
+    else if (total >= 2 && total <=5) {
+      let gonerRoll = new Roll("1d6").evaluate({ async: false });
+      await showDice(gonerRoll);
+      let result = gonerRoll.result;
+      additionalRolls.push(gonerRoll)
+      let gonerText = "You're A Goner!\n"
+      let gonerEffectRoll;
+      let gonerEffectText ='';
+      if (result < 3) {
+        const roll = await this.rollDice("1d10") 
+        gonerEffectRoll = roll.result; 
+        gonerEffectText = ` minutes to make your mark.`; 
+      }
+      if (result >2 && result <5) { 
+        const roll = await this.rollDice("1d8");
+        gonerEffectRoll = roll.result; 
+        gonerEffectText = ' hours of pain and panic.';
+      }
+      if (result == 5) { 
+        const roll = await this.rollDice("1d6");
+        gonerEffectRoll = roll.result; 
+        gonerEffectText = ' drawn-out days of misery.';
+      }
+      if (result == 6) { 
+        const roll = await this.rollDice("1d4");
+        gonerEffectRoll = roll.result; 
+        gonerEffectText = ' weeks of tedious expiration.';
+      }
+      gonerText += `${gonerEffectRoll} ${gonerEffectText}`; 
+      outcomeLines = [gonerText];
+    }
+    else if (total >= 6 && total <=10) { outcomeLines = ['Zzzzzz. You’re unconscious until you have at least 1 HP.'] }
+    else if (total >= 11 && total <=15) {
+      const roll = await this.rollDice("1d4");
+      const result = roll.result;
+      let abilityName;
+      if (result == 1) { abilityName = game.i18n.localize("FS.AbilityGrit") }
+      if (result == 2) { abilityName = game.i18n.localize("FS.AbilitySlick") }
+      if (result == 3) { abilityName = game.i18n.localize("FS.AbilityWits") }
+      if (result == 4) { abilityName = game.i18n.localize("FS.AbilityLuck") }
+      outcomeLines = [`A Lesson For Better Or Worse. Roll d6 and compare to ${abilityName}; if greater, increase ability by one; if less, decrease ability by to maximum of -6.`] }
+    else if (deathCheckRoll.result == 20) { outcomeLines = ['NAT 20!! A SECOND WIND! Heal d4 and increase max HP by 1.'] }
+    else {
+      outcomeLines = ['Hanging In There! Remain at your current HP.']
+    }
     // else if (brokenRoll.total === 2) {
     //   const limbRoll = new Roll("1d6").evaluate({ async: false });
     //   const actRoll = new Roll("1d4").evaluate({ async: false });

@@ -65,13 +65,8 @@
           >
             {{localize 'FS.DeathCheck'}}
           </button>
-          <button
-            type="button"
-            class="button item-button rest-button rollable"
-            title="{{localize 'FS.Rest'}}"
-          >
-            {{localize 'FS.Rest'}}
-          </button>
+          
+     
         </div>
       </div>
       <div class="omens-row">
@@ -90,13 +85,27 @@
         <span class="rule-text omen-rule rollable"
           >{{data.data.class.data.omenDie}} {{ localize "FS.PerRest"}}</span
         > -->
-        <button
+        <!-- <button
           type="button"
           class="button item-button get-better-button rollable"
           title="{{localize 'FS.GetBetter'}}"
         >
           {{localize 'FS.GetBetter'}}
-        </button>
+        </button> -->
+        <button
+        type="button"
+        class="button item-button rest-button rollable"
+        title="{{localize 'FS.Rest'}}"
+      >
+        {{localize 'FS.Rest'}}
+      </button>
+      <button
+      type="button"
+      class="button item-button get-better-button rollable"
+      title="{{localize 'FS.GetBetter'}}"
+    >
+      {{localize 'FS.GetBetter'}}
+    </button>
       </div>
       <div class="acesrow">
         <label class="stat-label aces-label"
