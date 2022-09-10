@@ -1,0 +1,17 @@
+<form class="roll-card">
+  <div class="card-title">{{localize 'FS.DeathCheck'}}</div>
+  <div class="test-roll">
+    <div class="roll-title">
+      <span>{{deathCheckFormula}}</span>
+    </div>
+    <div class="roll-result">
+      <span>{{rollDisplay}} = {{ deathCheckTotal }}</span>
+    </div>
+    <div class="outcome-text">
+      {{#each outcomeLines}}
+      <span class="take-damage">{{this}}</span>
+      <br />
+      {{/each}}
+    </div>
+  </div>
+</form>

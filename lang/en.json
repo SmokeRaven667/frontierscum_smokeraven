@@ -32,6 +32,7 @@
   "FS.DeathCheckBetterOrWorse": "A Lesson For Better Or Worse. Pick a random ability; roll d6 and compare to ability. If result is HIGHER, increase ability by 1; if LOWER, decrease ability by 1. Result of 1 always decreases ability but never below -6.",
   "FS.DeathCheckHangingInThere": "Hanging In There. Remain at your current HP.",
   "FS.DeathCheckSecondWind": "A Second Wind! Heal d4 and increase max HP by 1.",
+  "FS.DropCheck": "Drop Check",
   "FS.Cancel": "Cancel",
   "FS.CarryWeight": "Carry Weight",
   "FS.Carrying": "Carrying",

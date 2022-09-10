@@ -123,6 +123,7 @@ export class FSActorSheetCharacter extends FSActorSheet {
       .on("click", this._onToughnessRoll.bind(this));
     html.find(".item-scvmify").click(this._onScvmify.bind(this));
     html.find(".death-check-button").on("click", this._onDeathCheck.bind(this));
+    html.find(".drop-check-button").on("click", this._onDropCheck.bind(this));
     html.find(".rest-button").on("click", this._onRest.bind(this));
     html
       .find(".omens-row span.rollable")
@@ -179,6 +180,11 @@ export class FSActorSheetCharacter extends FSActorSheet {
   _onDeathCheck(event) {
     event.preventDefault();
     this.actor.rollDeathCheck();
+  }
+
+  _onDropCheck(event) {
+    event.preventDefault();
+    this.actor.rollDropCheck();
   }
 
   _onRest(event) {

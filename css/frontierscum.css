@@ -536,7 +536,7 @@
   font-size: 14px;
   height: 28px;
 }
-.frontierscum.sheet.actor.character .sheet-header .header-col2 .death-check-button,
+.frontierscum.sheet.actor.character .sheet-header .header-col2 .death-check-button .drop-check-button,
 .frontierscum.sheet.actor.character .sheet-header .header-col2 .rest-button {
   width: 120px;
 }
