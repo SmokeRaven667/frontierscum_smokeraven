@@ -152,6 +152,10 @@ const applyFontsAndColors = () => {
     "--sidebar-button-foreground-color",
     colorScheme.sidebarButtonForeground
   );
+  r.style.setProperty(
+    "--color-bg-option",
+    colorScheme.optionBackgroundColor
+  );
   r.style.setProperty("--chat-font", fontScheme.chat);
   r.style.setProperty("--chat-info-font", fontScheme.chatInfo);
   r.style.setProperty("--h1-font", fontScheme.h1);

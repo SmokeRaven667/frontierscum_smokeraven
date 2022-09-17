@@ -78,6 +78,7 @@ FS.colorSchemes = {
     foregroundAlt: "#ffe900",
     highlightBackground: "#ffe900",
     highlightForeground: "#000000",
+    optionBackgroundColor: "#000000",
     sidebarBackground: "#000000",
     sidebarForeground: "#ffffff",
     sidebarButtonBackground: "#ffffff",

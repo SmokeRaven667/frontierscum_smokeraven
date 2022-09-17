@@ -108,7 +108,7 @@
 }
 .frontierscum select {
   height: 27px;
-  background: rgba(0, 0, 0, 0.05);
+  background: white;
   border: 1px solid #7a7971;
   border-radius: 0px;
   padding: 0 3px;
@@ -124,7 +124,8 @@
   padding: 3px;
 }
 .frontierscum select > option {
-  background-color: var(--background-color) !important;
+  /* background-color: var(--background-color) !important; */
+  background-color: black;
   color: var(--foreground-color) !important;
 }
 .frontierscum .editor,
