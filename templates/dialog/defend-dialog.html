@@ -35,6 +35,15 @@
       data-dtype="String"
     />
   </div>
+  {{!-- Attack Type --}}
+  <div class="form-group">
+    <label>{{ localize "FS.ItemAttackType" }}:</label>
+    <select name="attacktype">
+      <option value="melee">Melee</option>
+      <option value="ranged">Ranged (not gun)</option>
+      <option value="gun">Gun</option>
+    </select>
+  </div>
   <div class="form-group">
     <label>{{localize 'FS.ItemDamageExplodes'}}:</label>
     <input

@@ -33,6 +33,13 @@ const WIELD_POWER_ROLL_CARD_TEMPLATE =
  * @extends {Actor}
  */
 export class FSActor extends Actor {
+  _titleCase(str) {
+    return str.replace(/\w\S*/g, word => {
+      return word.charAt(0).toUpperCase() +
+             word.slice(1).toLowerCase();
+    });
+  }
+
   /** @override */
   static async create(data, options = {}) {
     data.token = data.token || {};
@@ -283,7 +290,7 @@ export class FSActor extends Actor {
     );
   }
 
-  async testAgility() {
+  async testSlick() {
     const drModifiers = [];
     const armor = this.equippedArmor();
     if (armor) {
@@ -304,19 +311,10 @@ export class FSActor extends Actor {
       );
     }
     await this._testAbility(
-      "agility",
-      "FS.AbilityAgility",
-      "FS.AbilityAgilityAbbrev",
-      drModifiers
-    );
-  }
-
-  async testSlick() {
-    await this._testAbility(
       "slick",
       "FS.AbilitySlick",
       "FS.AbilitySlickAbbrev",
-      null
+      drModifiers
     );
   }
 
@@ -325,6 +323,15 @@ export class FSActor extends Actor {
       "wits",
       "FS.AbilityWits",
       "FS.AbilityWitsAbbrev",
+      null
+    );
+  }
+
+  async testLuck() {
+    await this._testAbility(
+      "luck",
+      "FS.AbilityLuck",
+      "FS.AbilityLuckAbbrev",
       null
     );
   }
@@ -672,6 +679,7 @@ export class FSActor extends Actor {
     const modifiedDR = parseInt(form.defensemodifieddr.value);
     const incomingAttack = form.incomingattack.value;
     const damageExplodesFlag = form.damageexplodesflag.value;
+    const attackTypeFlag = form.attacktype.value;
     if (!baseDR || !modifiedDR || !incomingAttack) {
       // TODO: prevent dialog/form submission w/ required field(s)
       return;
@@ -687,19 +695,47 @@ export class FSActor extends Actor {
       CONFIG.FS.flags.DAMAGE_EXPLODES,
       damageExplodesFlag
     );
-    this._rollDefend(modifiedDR, incomingAttack, damageExplodesFlag);
+    await this.setFlag(
+      CONFIG.FS.flagScope,
+      CONFIG.FS.flags.ATTACK_TYPE,
+      attackTypeFlag
+    );
+    this._rollDefend(modifiedDR, incomingAttack, damageExplodesFlag, attackTypeFlag);
   }
 
   /**
    * Do the actual defend rolls and resolution.
    */
-  async _rollDefend(defendDR, incomingAttack, damageExplodesFlag) {
+  async _rollDefend(defendDR, incomingAttack, damageExplodesFlag, attackTypeFlag) {
     const rollData = this.getRollData();
     const armor = this.equippedArmor();
     const shield = this.equippedShield();
 
     // roll 1: defend
-    const defendRoll = new Roll("d20+@abilities.agility.value", rollData);
+    // TODO: should use grit if melee weapon, slick if ranged not a gun
+    //    luck if gun and hard shot
+    let defendAttribute = 'grit';
+    switch (attackTypeFlag) {
+      case "melee":
+        defendAttribute = "grit";
+        break;
+      case "ranged":
+        defendAttribute = "slick";
+        break;
+      case "gun":
+        defendAttribute = "luck";
+        break;
+      default:
+        break;
+    }
+    console.log(defendAttribute);
+    let attributeValue = this.data.data.abilities.grit.value;
+    console.log('-- defendAttribute --')
+    console.log(defendAttribute)
+    console.log('-- rollData --')
+    console.log(rollData)
+    const defendRoll = new Roll(`d20+@abilities.${defendAttribute}.value`, rollData);
+
     defendRoll.evaluate({ async: false });
     await showDice(defendRoll);
 
@@ -784,13 +820,15 @@ export class FSActor extends Actor {
         "FS.Take"
       )} ${damage} ${game.i18n.localize("FS.Damage")}`;
     }
-
+    const defendAttributeTitleCase = this._titleCase(defendAttribute);
+    const defendFormula = `FS.Ability${defendAttributeTitleCase}Abbrev`;
+    const localized = game.i18n.localize(defendFormula);
     const rollResult = {
       actor: this,
       armorRoll,
       damageRoll,
       defendDR,
-      defendFormula: `1d20 + ${game.i18n.localize("FS.AbilityAgilityAbbrev")}`,
+      defendFormula: `1d20 + ${localized}`,
       defendOutcome,
       defendRoll,
       items,

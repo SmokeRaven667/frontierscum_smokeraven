@@ -110,17 +110,17 @@ export class FSActorSheetCharacter extends FSActorSheet {
 
     // sheet header
     html
-      .find(".ability-label.rollable.strength")
-      .on("click", this._onStrengthRoll.bind(this));
-    html
-      .find(".ability-label.rollable.agility")
-      .on("click", this._onAgilityRoll.bind(this));
+      .find(".ability-label.rollable.grit")
+      .on("click", this._onGritRoll.bind(this));
     html
       .find(".ability-label.rollable.slick")
       .on("click", this._onSlickRoll.bind(this));
     html
-      .find(".ability-label.rollable.toughness")
-      .on("click", this._onToughnessRoll.bind(this));
+      .find(".ability-label.rollable.wits")
+      .on("click", this._onWitsRoll.bind(this));
+    html
+      .find(".ability-label.rollable.luck")
+      .on("click", this._onLuckRoll.bind(this));
     html.find(".item-scvmify").click(this._onScvmify.bind(this));
     html.find(".death-check-button").on("click", this._onDeathCheck.bind(this));
     html.find(".drop-check-button").on("click", this._onDropCheck.bind(this));
@@ -142,14 +142,9 @@ export class FSActorSheetCharacter extends FSActorSheet {
     html.find("select.ammo-select").on("change", this._onAmmoSelect.bind(this));
   }
 
-  _onStrengthRoll(event) {
+  _onGritRoll(event) {
     event.preventDefault();
     this.actor.testGrit();
-  }
-
-  _onAgilityRoll(event) {
-    event.preventDefault();
-    this.actor.testAgility();
   }
 
   _onSlickRoll(event) {
@@ -157,9 +152,14 @@ export class FSActorSheetCharacter extends FSActorSheet {
     this.actor.testSlick();
   }
 
-  _onToughnessRoll(event) {
+  _onWitsRoll(event) {
     event.preventDefault();
-    this.actor.testToughness();
+    this.actor.testWits();
+  }
+
+  _onLuckRoll(event) {
+    event.preventDefault();
+    this.actor.testLuck();
   }
 
   _onOmensRoll(event) {

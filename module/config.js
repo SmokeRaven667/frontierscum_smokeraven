@@ -3,7 +3,7 @@ export const FS = {};
 
 FS.abilities = {
   luck: "FS.AbilityLuck",     // aka agility
-  slick: "FS.AbilitySlick", // aka presence
+  slick: "FS.AbilitySlick", // aka agility presence
   grit: "FS.AbilityGrit",   // aka strength
   wits: "FS.AbilityWits", // aka toughness
 };
@@ -119,6 +119,7 @@ FS.flags = {
   INCOMING_ATTACK: "incomingAttack",
   TARGET_ARMOR: "targetArmor",
   DAMAGE_EXPLODES: "damageExplodes",
+  ATTACK_TYPE: "attackType",
 };
 
 FS.fontSchemes = {
