@@ -6,6 +6,8 @@ const ATTACK_DIALOG_TEMPLATE =
   "systems/frontierscum/templates/dialog/attack-dialog.html";
 const ATTACK_ROLL_CARD_TEMPLATE =
   "systems/frontierscum/templates/chat/attack-roll-card.html";
+  const SURVIVAL_ROLL_CARD_TEMPLATE =
+  "systems/frontierscum/templates/chat/survival-roll-card.html";
 const DEATH_CHECK_ROLL_CARD_TEMPLATE =
   "systems/frontierscum/templates/chat/death-check-roll-card.html";
   const DROP_CHECK_ROLL_CARD_TEMPLATE =
@@ -383,6 +385,7 @@ export class FSActor extends Actor {
     const form = html[0].querySelector("form");
     const itemId = form.itemid.value;
     const attackDR = parseInt(form.attackdr.value);
+    let advantage = $(form).find("#advantageselect").find(":selected").val();
     const targetArmor = form.targetarmor.value;
     if (!itemId || !attackDR) {
       // TODO: prevent form submit via required fields
@@ -395,35 +398,62 @@ export class FSActor extends Actor {
     );
     await this.setFlag(
       CONFIG.FS.flagScope,
+      CONFIG.FS.flags.ATTACK_ADVANTAGE,
+      advantage
+    );
+    await this.setFlag(
+      CONFIG.FS.flagScope,
       CONFIG.FS.flags.TARGET_ARMOR,
       targetArmor
     );
-    this._rollAttack(itemId, attackDR, targetArmor);
+    this._rollAttack(itemId, attackDR, targetArmor, advantage);
   }
+
 
   /**
    * Do the actual attack rolls and resolution.
    */
-  async _rollAttack(itemId, attackDR, targetArmor) {
+  async _rollAttack(itemId, attackDR, targetArmor, advantage) {
     const item = this.items.get(itemId);
     const itemRollData = item.getRollData();
-    
     const actorRollData = this.getRollData();
-    console.log('ITEM ROLL DATA')
-    console.log(itemRollData)
-    console.log('ACTOR ROLL DATA')
-    console.log(actorRollData)
+
+    const advantageDisplay = (advantage === 'no-choice') ? '' : advantage;
 
     // roll 1: attack
     const isRanged = itemRollData.weaponType === "ranged";
     const damageExplodes = itemRollData.damageExplodes === "explodes";
     // ranged weapons use slick; melee weapons use grit
     const ability = isRanged ? "slick" : "grit";
-    const attackRoll = new Roll(
+
+    // determine attack roll with advantage or disadvantge TODO should be a function since
+    // same thing happens in rollDefend?
+    const attackRoll1 = new Roll(
       `d20+@abilities.${ability}.value`,
       actorRollData
     );
-    attackRoll.evaluate({ async: false });
+    attackRoll1.evaluate({ async: false });
+    let result1 = attackRoll1.terms[0].results[0].result;
+    let result2 = 0;
+    const attackRoll2 = new Roll(
+      `d20+@abilities.${ability}.value`,
+      actorRollData
+    );
+    let attackRoll;
+    if(advantage && (advantage === 'advantage' || advantage === 'disadvantage') ) {
+      attackRoll2.evaluate({ async: false });
+      result2 = attackRoll2.terms[0].results[0].result;
+      if (advantage === 'advantage') {
+        attackRoll = (result1 > result2) ? attackRoll1 : attackRoll2;
+      }
+      if (advantage === 'disadvantage') {
+        attackRoll = (result1 < result2) ? attackRoll1 : attackRoll2;
+      }
+    }
+    else {
+      attackRoll = attackRoll1;
+    }
+
     await showDice(attackRoll);
 
     const d20Result = attackRoll.terms[0].results[0].result;
@@ -457,33 +487,21 @@ export class FSActor extends Actor {
       //const damageFormula = isCrit ? "(@damageDie) * 2" : "@damageDie";
       const damageFormula = "@damageDie";
       damageRoll = new Roll(damageFormula, itemRollData);
-      damageRoll.evaluate({ async: false, maximize: true });
+      damageRoll.evaluate({ async: false, maximize: false }); // NOTE: maximize true to hack max damage for testing
       maxDamageAmount = new Roll(damageFormula, itemRollData);
       maxDamageAmount.evaluate({ async: false, maximize: true });
       const dicePromises = [];
       addShowDicePromise(dicePromises, damageRoll);
 
       let damage = damageRoll.total;
-      console.log(`damage total: ${damage}`)
       let maxAmount = maxDamageAmount.total;
 
-      // TODO: hack max damage to test logic
-      //damage = maxAmount;
-
-      console.log('-- MAX AMOUNT DAMAGE --')
-      console.log(maxAmount);
-      console.log('-- DAMAGE EXPLODES FLAG --')
-      console.log(damageExplodes)
       if (damage >= maxAmount && damageExplodes) {
         damageExploded = true;
-        console.log('DAMAGE EXPLODES');
         explodeRoll = new Roll(damageFormula, itemRollData);
         explodeRoll.evaluate({ async: false });
         addShowDicePromise(dicePromises, explodeRoll);
         explodeDamage = explodeRoll.total;
-        console.log(explodeDamage)
-        console.log(explodeRoll.total);
-        console.log(`EXPLODE DAMAGE: ${explodeDamage}`)
         damage = damage + explodeDamage;
       }
 
@@ -527,7 +545,10 @@ export class FSActor extends Actor {
       weaponTypeKey,
       damageExploded,
       explodeDamage,
-      explodeRoll
+      explodeRoll,
+      advantageDisplay,
+      result1,
+      result2
     };
     console.log('---- ROLL RESULT ---')
     console.log(rollResult)
@@ -558,6 +579,15 @@ export class FSActor extends Actor {
    */
   async _renderAttackRollCard(rollResult) {
     const html = await renderTemplate(ATTACK_ROLL_CARD_TEMPLATE, rollResult);
+    ChatMessage.create({
+      content: html,
+      sound: diceSound(),
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+    });
+  }
+
+  async _renderSurvivalRollCard(rollResult) {
+    const html = await renderTemplate(SURVIVAL_ROLL_CARD_TEMPLATE, rollResult);
     ChatMessage.create({
       content: html,
       sound: diceSound(),
@@ -680,6 +710,7 @@ export class FSActor extends Actor {
     const incomingAttack = form.incomingattack.value;
     const damageExplodesFlag = form.damageexplodesflag.value;
     const attackTypeFlag = form.attacktype.value;
+    let advantage = $(form).find("#advantageselect").find(":selected").val();
     if (!baseDR || !modifiedDR || !incomingAttack) {
       // TODO: prevent dialog/form submission w/ required field(s)
       return;
@@ -700,17 +731,24 @@ export class FSActor extends Actor {
       CONFIG.FS.flags.ATTACK_TYPE,
       attackTypeFlag
     );
-    this._rollDefend(modifiedDR, incomingAttack, damageExplodesFlag, attackTypeFlag);
+    await this.setFlag(
+      CONFIG.FS.flagScope,
+      CONFIG.FS.flags.DEFEND_ADVANTAGE,
+      advantage
+    );
+    this._rollDefend(modifiedDR, incomingAttack, damageExplodesFlag, attackTypeFlag, advantage);
   }
 
   /**
    * Do the actual defend rolls and resolution.
    */
-  async _rollDefend(defendDR, incomingAttack, damageExplodesFlag, attackTypeFlag) {
+  async _rollDefend(defendDR, incomingAttack, damageExplodesFlag, attackTypeFlag, advantage) {
     const rollData = this.getRollData();
     const armor = this.equippedArmor();
     const shield = this.equippedShield();
 
+    const advantageDisplay = (advantage === 'no-choice') ? '' : advantage;
+    
     // roll 1: defend
     // TODO: should use grit if melee weapon, slick if ranged not a gun
     //    luck if gun and hard shot
@@ -729,16 +767,47 @@ export class FSActor extends Actor {
         break;
     }
     console.log(defendAttribute);
-    let attributeValue = this.data.data.abilities.grit.value;
+    
     console.log('-- defendAttribute --')
     console.log(defendAttribute)
     console.log('-- rollData --')
     console.log(rollData)
-    const defendRoll = new Roll(`d20+@abilities.${defendAttribute}.value`, rollData);
 
-    defendRoll.evaluate({ async: false });
+    //const defendRoll = new Roll(`d20+@abilities.${defendAttribute}.value`, rollData);
+
+    // determine attack roll with advantage or disadvantge TODO should be a function since
+    // same thing happens in rollDefend?
+    const defendRoll1 = new Roll(
+      `d20+@abilities.${defendAttribute}.value`,
+      rollData
+    );
+    defendRoll1.evaluate({ async: false });
+    let result1 = defendRoll1.terms[0].results[0].result;
+    let result2 = 0;
+    const defendRoll2 = new Roll(
+      `d20+@abilities.${defendAttribute}.value`,
+      rollData
+    );
+    let defendRoll;
+    if(advantage && (advantage === 'advantage' || advantage === 'disadvantage') ) {
+      defendRoll2.evaluate({ async: false });
+      result2 = defendRoll2.terms[0].results[0].result;
+      if (advantage === 'advantage') {
+        defendRoll = (result1 > result2) ? defendRoll1 : defendRoll2;
+      }
+      if (advantage === 'disadvantage') {
+        defendRoll = (result1 < result2) ? defendRoll1 : defendRoll2;
+      }
+    }
+    else {
+      defendRoll = defendRoll1;
+    }
+
+    //defendRoll.evaluate({ async: false });
     await showDice(defendRoll);
 
+    // TODO: put in advantage
+    
     const d20Result = defendRoll.terms[0].results[0].result;
     const isFumble = d20Result === 1;
     const isCrit = d20Result === 20;
@@ -834,7 +903,10 @@ export class FSActor extends Actor {
       items,
       takeDamage,
       damageExploded,
-      explodeRoll
+      explodeRoll,
+      advantageDisplay,
+      result1,
+      result2
     };
     await this._renderDefendRollCard(rollResult);
   }
@@ -1169,15 +1241,18 @@ export class FSActor extends Actor {
     outcomeTextFn,
     rollFormula = null
   ) {
-    const roll = new Roll(dieRoll, rollData);
-    roll.evaluate({ async: false });
-    await showDice(roll);
-  
-    let rr = roll.result;
-    let rollNum = rr.substring(0, rr.indexOf('+')).trim();
+    let roll = 0;
     let criticalText = '';  
-    if (rollNum == 20) {
-      criticalText = game.i18n.localize("FS.CriticalSuccess")
+    if(dieRoll) {
+      roll = new Roll(dieRoll, rollData);
+      roll.evaluate({ async: false });
+      await showDice(roll);
+    
+      let rr = roll.result;
+      let rollNum = rr.substring(0, rr.indexOf('+')).trim();
+      if (rollNum == 20) {
+        criticalText = game.i18n.localize("FS.CriticalSuccess")
+      }
     }
     const rollResult = {
       cardTitle: cardTitle,
@@ -1232,37 +1307,126 @@ export class FSActor extends Actor {
   /**
    *
    * @param {*} restLength "short" or "long"
-   * @param {*} foodAndDrink "eat", "donteat", or "starve"
-   * @param {*} infected true/false
+   * @param {*} foodAndDrink "snack", "smoke", "drink", "nap", "eat", "sleep", "entertainment"
+   * @param {*} miserable true/false
    */
-  async rest(restLength, foodAndDrink, infected) {
+  async rest(restLength, foodAndDrink, miserable) {
+    if(miserable) {
+      await this.showRestNoEffect();
+      return;
+    }
+    let extraHP = 0;
+    let items = [];
+    for(let x=0; x<foodAndDrink.length;x++) {
+      console.log(foodAndDrink[x].value)
+      items.push(foodAndDrink[x].value)
+    }
+    const shortRestItems = ['smoke', 'drink', 'nap', 'snack'];
+    const longRestItems = ['sleep', 'entertainment', 'eat'];
+
     if (restLength === "short") {
-      if (foodAndDrink === "eat" && !infected) {
-        await this.rollHealHitPoints("d4");
-      } else {
-        await this.showRestNoEffect();
-      }
-    } else if (restLength === "long") {
-      let canRestore = true;
-      if (foodAndDrink === "starve") {
-        await this.rollStarvation();
-        canRestore = false;
-      }
-      if (infected) {
-        await this.rollInfection();
-        canRestore = false;
-      }
-      if (canRestore && foodAndDrink === "eat") {
-        await this.rollHealHitPoints("d6");
-        await this.rollPowersPerDay();
-        if (this.data.data.omens.value === 0) {
-          await this.rollOmens();
+      
+      shortRestItems.forEach((item) => {
+        if(items.includes(item)) {
+          extraHP += 1;
         }
-      } else if (canRestore && foodAndDrink === "donteat") {
-        await this.showRestNoEffect();
-      }
+      });
+      await this.rollHealHitPoints("d4", extraHP);
+    }
+    if (restLength === "long") {
+      longRestItems.forEach((item) => {
+        if(items.includes(item)) {
+          extraHP += 2;
+        }
+      });
+      await this.rollHealHitPoints("", extraHP);
     }
   }
+
+    /**
+   *
+   * @param {*} survivalType "hunting", "foraging" or "fishing"
+   * @param {*} survivalAttribute "grit", "slick", "wits", "luck"
+   * @param {*} equipped true/false
+   * @param {*} targetDR int
+   */
+     async survival(survivalType, survivalAttribute, equipped, targetDR) {
+      
+      //let attributeValue = this.data.data.abilities.grit.value;
+
+      const survivalRoll = new Roll(
+          `d20+@abilities.${survivalAttribute}.value`,
+          this.getRollData()
+        );
+      survivalRoll.evaluate({ async: false });
+      await showDice(survivalRoll);
+      let result = survivalRoll.terms[0].results[0].result;
+
+      // TODO: roll again if disadvantage
+      let result2 = result;
+
+      // if (result >= targetDR) {
+      //   console.log('SUCCESS')
+      // }
+      // else {
+      //   console.log('FAILURE')
+      // }
+
+      
+      let typeName = this._titleCase(survivalType);
+      let failureSuccess = (result < targetDR) ? "Failure" : "Success";
+      let failureSuccessCheck = game.i18n.localize(`FS.${failureSuccess}`);
+      let survivalOutcomeCheck = game.i18n.localize(`FS.${typeName}${failureSuccess}`);
+      console.log('survivalOutcomeCheck');
+      console.log(survivalOutcomeCheck)
+      let survivalOutcome = `${failureSuccessCheck}. ${survivalOutcomeCheck}`
+      
+//      let survivalOutcome = `${game.i18n.localize("FS.${result}")}<br/>${game.i18n.localize("FS.${typeName}${failureSuccess}")}`
+
+      let abilityAbbrevKey = this._titleCase(survivalAttribute);
+      const rollResult = {
+        actor: this,
+        targetDR,
+        survivalFormula: `1d20 + ${game.i18n.localize(abilityAbbrevKey)}`,
+        survivalRoll,
+        disadvantageDisplay: false,
+        result,
+        result2,
+        survivalOutcome,
+        typeName
+      };
+      console.log('-- roll result --')
+      console.log(rollResult)
+      await this._renderSurvivalRollCard(rollResult);
+      
+      
+      // let extraHP = 0;
+      // let items = [];
+      // for(let x=0; x<foodAndDrink.length;x++) {
+      //   console.log(foodAndDrink[x].value)
+      //   items.push(foodAndDrink[x].value)
+      // }
+      // const shortRestItems = ['smoke', 'drink', 'nap', 'snack'];
+      // const longRestItems = ['sleep', 'entertainment', 'eat'];
+  
+      // if (restLength === "short") {
+        
+      //   shortRestItems.forEach((item) => {
+      //     if(items.includes(item)) {
+      //       extraHP += 1;
+      //     }
+      //   });
+      //   await this.rollHealHitPoints("d4", extraHP);
+      // }
+      // if (restLength === "long") {
+      //   longRestItems.forEach((item) => {
+      //     if(items.includes(item)) {
+      //       extraHP += 2;
+      //     }
+      //   });
+      //   await this.rollHealHitPoints("", extraHP);
+      // }
+    }
 
   async showRestNoEffect() {
     const result = {
@@ -1277,19 +1441,41 @@ export class FSActor extends Actor {
     });
   }
 
-  async rollHealHitPoints(dieRoll) {
-    const roll = await this._rollOutcome(
-      dieRoll,
-      this.getRollData(),
-      game.i18n.localize("FS.Rest"),
-      (roll) =>
-        `${game.i18n.localize("FS.Heal")} ${roll.total} ${game.i18n.localize(
-          "FS.HP"
-        )}`
-    );
+  async showSurvivalNoEffect() {
+    const result = {
+      cardTitle: game.i18n.localize("FS.Survival"),
+      outcomeText: game.i18n.localize("FS.NoEffect"),
+    };
+    const html = await renderTemplate(OUTCOME_ONLY_ROLL_CARD_TEMPLATE, result);
+    await ChatMessage.create({
+      content: html,
+      sound: diceSound(),
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+    });
+  }
+
+  async rollHealHitPoints(dieRoll, extraHP) {
+    if (dieRoll) {
+      const roll = await this._rollOutcome(
+        dieRoll,
+        this.getRollData(),
+        game.i18n.localize("FS.Rest"),
+        (roll) =>
+          `${game.i18n.localize("FS.Heal")} ${roll.total} + ${extraHP} ${game.i18n.localize("FS.HP")}`
+      );
+    }
+    else {
+      const roll = await this._rollOutcome(
+        null,
+        this.getRollData(),
+        game.i18n.localize("FS.Rest"),
+        `${game.i18n.localize("FS.Heal")} ${extraHP} ${game.i18n.localize("FS.HP")}`
+      );
+    }
+
     const newHP = Math.min(
       this.data.data.hp.max,
-      this.data.data.hp.value + roll.total
+      this.data.data.hp.value + roll.total + extraHP
     );
     await this.update({ ["data.hp.value"]: newHP });
   }

@@ -7,6 +7,11 @@
   </div>
   {{/each}}
   <div class="defend-roll">
+    <div class="roll-info">
+      {{#if advantageDisplay}}
+      Rolled with {{advantageDisplay}} ({{result1}}/{{result2}})
+      {{/if}}
+    </div>
     <div class="roll-title">
       <span
         >{{localize 'FS.Defend'}}: {{defendFormula}} {{localize 'FS.Vs'}}

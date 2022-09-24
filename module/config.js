@@ -120,6 +120,8 @@ FS.flags = {
   TARGET_ARMOR: "targetArmor",
   DAMAGE_EXPLODES: "damageExplodes",
   ATTACK_TYPE: "attackType",
+  ATTACK_ADVANTAGE: "attackAdvantage",
+  DEFEND_ADVANTAGE: "defendAdvantage",
 };
 
 FS.fontSchemes = {

@@ -1,0 +1,31 @@
+<form class="roll-card survival-roll-card">
+  <div class="card-title">
+    {{localize 'FS.Survival'}}
+  </div>
+  <!-- {{#each items as |item id|}}
+  <div class="item-row">
+    <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+    <span class="item-name">{{item.name}}</span>
+  </div>
+  {{/each}} -->
+  <div class="survival-roll">
+    <div class="roll-info">
+      {{#if advantageDisplay}}
+      Rolled with {{advantageDisplay}} ({{result1}}/{{result2}})
+      {{/if}}
+    </div>
+    <div class="roll-title">
+      <span
+        >{{typeName}}: {{survivalFormula}} {{localize 'FS.Vs'}}
+        {{localize 'FS.DR'}} {{targetDR}}</span
+      >
+    </div>
+    <div class="roll-result">
+      <span>{{xtotal survivalRoll}}</span>
+    </div>
+  </div>
+  <div class="outcome-text">
+    <span class="survival-outcome">{{survivalOutcome}}</span>
+  </div>
+
+</form>

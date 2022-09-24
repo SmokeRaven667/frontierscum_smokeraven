@@ -1,5 +1,6 @@
 import FSActorSheet from "./actor-sheet.js";
 import RestDialog from "./rest-dialog.js";
+import SurvivalDialog from "./survival-dialog.js";
 import { trackAmmo, trackCarryingCapacity } from "../../settings.js";
 
 /**
@@ -125,6 +126,7 @@ export class FSActorSheetCharacter extends FSActorSheet {
     html.find(".death-check-button").on("click", this._onDeathCheck.bind(this));
     html.find(".drop-check-button").on("click", this._onDropCheck.bind(this));
     html.find(".rest-button").on("click", this._onRest.bind(this));
+    html.find(".survival-button").on("click", this._onSurvival.bind(this));
     html
       .find(".omens-row span.rollable")
       .on("click", this._onOmensRoll.bind(this));
@@ -194,6 +196,15 @@ export class FSActorSheetCharacter extends FSActorSheet {
     // if we can resolve the mergeObject() Maximum call stack size exceeded error
     restDialog.actor = this.actor;
     restDialog.render(true);
+  }
+
+  _onSurvival(event) {
+    event.preventDefault();
+    const survivalDialog = new SurvivalDialog();
+    // TODO: maybe move this into a constructor,
+    // if we can resolve the mergeObject() Maximum call stack size exceeded error
+    survivalDialog.actor = this.actor;
+    survivalDialog.render(true);
   }
 
   _onGetBetter(event) {

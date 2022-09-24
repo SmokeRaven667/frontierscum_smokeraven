@@ -78,28 +78,6 @@
         </div>
       </div>
       <div class="omens-row">
-        <!-- <span
-          class="stat-label omens-label"
-          title="{{ localize 'FS.OmensHelpText' }}"
-          >{{ localize "FS.Omens" }}:</span
-        >
-        <input
-          class="stat-input"
-          name="data.omens.value"
-          type="number"
-          value="{{data.data.omens.value}}"
-          data-dtype="Number"
-        />
-        <span class="rule-text omen-rule rollable"
-          >{{data.data.class.data.omenDie}} {{ localize "FS.PerRest"}}</span
-        > -->
-        <!-- <button
-          type="button"
-          class="button item-button get-better-button rollable"
-          title="{{localize 'FS.GetBetter'}}"
-        >
-          {{localize 'FS.GetBetter'}}
-        </button> -->
         <button
         type="button"
         class="button item-button rest-button rollable"
@@ -109,11 +87,18 @@
       </button>
       <button
       type="button"
+      class="button item-button survival-button rollable"
+      title="{{localize 'FS.Survival'}}"
+    >
+      {{localize 'FS.Survival'}}
+    </button>
+      <!-- <button
+      type="button"
       class="button item-button get-better-button rollable"
       title="{{localize 'FS.GetBetter'}}"
     >
       {{localize 'FS.GetBetter'}}
-    </button>
+    </button> -->
       </div>
       <div class="acesrow">
         <label class="stat-label aces-label"

@@ -21,12 +21,18 @@ export default class RestDialog extends Application {
     event.preventDefault();
     const form = $(event.currentTarget).parents(".rest-dialog")[0];
     const restLength = $(form).find("input[name=rest-length]:checked").val();
+    // const foodAndDrink = $(form)
+    //   .find("input[name=food-and-drink]:checked")
+    //   .val();
     const foodAndDrink = $(form)
-      .find("input[name=food-and-drink]:checked")
-      .val();
-    const infected = $(form).find("input[name=infected]").is(":checked");
+      .find("input[name=food-and-drink]:checked");
+    console.log(foodAndDrink)
+    console.log(typeof(foodAndDrink))
+    console.log(foodAndDrink.length)
+    //const infected = $(form).find("input[name=infected]").is(":checked");
+    const miserable = $(form).find("input[name=miserable]").is(":checked");
     this.close();
     // TODO: await this?
-    this.actor.rest(restLength, foodAndDrink, infected);
+    this.actor.rest(restLength, foodAndDrink, miserable);
   }
 }

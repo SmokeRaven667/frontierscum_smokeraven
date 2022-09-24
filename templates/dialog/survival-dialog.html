@@ -1,0 +1,50 @@
+<form id="survival-form" class="custom-dialog survival-dialog">
+  <div class="section">
+    <div class="subtitle">{{localize 'FS.Survival'}}</div>
+    <div>
+      <ul>
+        <li>
+          <label
+            ><input name="survival-type" type="radio" value="hunting" checked />
+            <div>{{localize 'FS.Hunting'}}</div></label
+          >
+        </li>
+        <li>
+          <label
+            ><input name="survival-type" type="radio" value="foraging" />
+            <div>{{localize 'FS.Foraging'}}</div></label>
+        </li>
+        <li>
+          <label
+            ><input name="survival-type" type="radio" value="fishing" />
+            <div>{{localize 'FS.Fishing'}}</div></label>
+        </li>
+      </ul>
+      
+        <label>
+          <input name="targetDR" type="text"></input>
+          <div>{{localize 'FS.TargetDR'}}</div></label>
+      
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="subtitle">{{localize 'FS.Equipped'}}</div>
+    <div>
+      <ul>
+        <li>
+          <label>
+            <input name="equipped" type="checkbox" value="equipped" />
+            <div>{{localize 'FS.EquippedDescription'}}</div></label>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="button-row">
+    <button type="submit" class="button survival-button" name="survival" value="1">
+      {{localize 'FS.Survival'}}
+    </button>
+  </div>
+</form>

@@ -9,6 +9,11 @@
   </div>
   {{/each}}
   <div class="attack-roll">
+    <div class="roll-info">
+      {{#if advantageDisplay}}
+      Rolled with {{advantageDisplay}} ({{result1}}/{{result2}})
+      {{/if}}
+    </div>
     <div class="roll-title">
       <span
         >{{localize 'FS.Attack'}}: {{attackFormula}} {{localize 'FS.Vs'}}
