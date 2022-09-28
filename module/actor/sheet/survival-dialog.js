@@ -26,6 +26,8 @@ export default class RestDialog extends Application {
     event.preventDefault();
     const form = $(event.currentTarget).parents(".survival-dialog")[0];
     const survivalType  = $(form).find("input[name=survival-type]:checked").val();
+    let advantage = $(form).find("#advantageselect").find(":selected").val();
+
     let targetDR  = $(form).find("input[name=targetDR]").val();
     if(!targetDR) {
       targetDR = 12;
@@ -52,6 +54,6 @@ export default class RestDialog extends Application {
     const equipped = $(form).find("input[name=equipped]").is(":checked");
     this.close();
     // TODO: await this?
-    this.actor.survival(survivalType, survivalAttribute, equipped, targetDR);
+    this.actor.survival(survivalType, survivalAttribute, equipped, targetDR, advantage);
   }
 }

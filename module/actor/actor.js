@@ -766,14 +766,6 @@ export class FSActor extends Actor {
       default:
         break;
     }
-    console.log(defendAttribute);
-    
-    console.log('-- defendAttribute --')
-    console.log(defendAttribute)
-    console.log('-- rollData --')
-    console.log(rollData)
-
-    //const defendRoll = new Roll(`d20+@abilities.${defendAttribute}.value`, rollData);
 
     // determine attack roll with advantage or disadvantge TODO should be a function since
     // same thing happens in rollDefend?
@@ -1350,20 +1342,44 @@ export class FSActor extends Actor {
    * @param {*} equipped true/false
    * @param {*} targetDR int
    */
-     async survival(survivalType, survivalAttribute, equipped, targetDR) {
+     async survival(survivalType, survivalAttribute, equipped, targetDR, advantage) {
       
       //let attributeValue = this.data.data.abilities.grit.value;
 
-      const survivalRoll = new Roll(
+      const advantageDisplay = (advantage === 'no-choice') ? '' : advantage;
+      const survivalRoll1 = new Roll(
           `d20+@abilities.${survivalAttribute}.value`,
           this.getRollData()
         );
-      survivalRoll.evaluate({ async: false });
+      survivalRoll1.evaluate({ async: false });
+      
+      let result1 = survivalRoll1.terms[0].results[0].result;
+      let result2 = 0;
+      let survivalRoll;
+      let result;
+      if(advantage && (advantage === 'advantage' || advantage === 'disadvantage') ) {
+        const survivalRoll2 = new Roll(
+          `d20+@abilities.${survivalAttribute}.value`,
+          this.getRollData()
+        );
+        survivalRoll2.evaluate({ async: false });
+        result2 = survivalRoll2.terms[0].results[0].result;
+        if (advantage === 'advantage') {
+          survivalRoll = (result1 > result2) ? survivalRoll1 : survivalRoll2;
+          result = (result1 > result2) ? result1 : result2;
+        }
+        if (advantage === 'disadvantage') {
+          survivalRoll = (result1 < result2) ? survivalRoll1 : survivalRoll2;
+          result = (result1 < result2) ? result1 : result2;
+        }
+      }
+      else {
+        survivalRoll = survivalRoll1;
+      }
+  
+      //defendRoll.evaluate({ async: false });
       await showDice(survivalRoll);
-      let result = survivalRoll.terms[0].results[0].result;
 
-      // TODO: roll again if disadvantage
-      let result2 = result;
 
       // if (result >= targetDR) {
       //   console.log('SUCCESS')
@@ -1389,11 +1405,11 @@ export class FSActor extends Actor {
         targetDR,
         survivalFormula: `1d20 + ${game.i18n.localize(abilityAbbrevKey)}`,
         survivalRoll,
-        disadvantageDisplay: false,
-        result,
+        result1,
         result2,
         survivalOutcome,
-        typeName
+        typeName,
+        advantageDisplay
       };
       console.log('-- roll result --')
       console.log(rollResult)

@@ -66,6 +66,9 @@ function rollStat() {
     return result;
 };
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+
 const rollScvmForClass = async (clazz) => {
     console.log(`Creating new ${clazz.data.name}`);
     // TODO: omens become aces?
@@ -215,8 +218,7 @@ const rollScvmForClass = async (clazz) => {
         );
         const startingHorseTypeDraw = await startingHorseTypeTable.draw({displayChat: false});
         const horse = await docsFromResults(startingHorseTypeDraw.results);
-        console.log('-- HORSE --')
-        console.log(horse)
+        
         let horseType = horse[0].data.name;
         
         // horse name 1
@@ -273,21 +275,8 @@ const rollScvmForClass = async (clazz) => {
     descriptionLines.push("<p>&nbsp;</p>");
 
     let descriptionLine = "";
-    if (FS.scvmFactory.cowboyTraitsTable1) {
-        const ttCowboyTable1 = ccContent.find(
-            (i) => i.name === FS.scvmFactory.cowboyTraitsTable1
-        );
-        const ttCowboyResults1 = await compendiumTableDrawMany(ttCowboyTable1, 1);
-        const cowboyTrait1 = ttCowboyResults1[0].data.text;
-        const ttCowboyTable2 = ccContent.find(
-            (i) => i.name === FS.scvmFactory.cowboyTraitsTable2
-        );
-        const ttCowboyResults2 = await compendiumTableDrawMany(ttCowboyTable2, 1);
-        const cowboyTrait2 = ttCowboyResults2[0].data.text;
-        descriptionLine += `Frontier Scum Traits: ${cowboyTrait1}. ${cowboyTrait2}<br/>`;
-    }
+
     if (FS.scvmFactory.crimeTable1) {
-        descriptionLine = "";
         const ttCrimeTable1 = ccContent.find(
             (i) => i.name === FS.scvmFactory.crimeTable1
         );
@@ -307,25 +296,48 @@ const rollScvmForClass = async (clazz) => {
         const reward = (parseInt(crime1Num) + parseInt(crime2Num)) * 10;
         descriptionLine += `WANTED FOR: ${crime1} ${crime2}.<br/>REWARD: ${reward}<br/><p>&nbsp;</p>`;
     }
+    let terribleTrait1;
+    let terribleTrait2;
+    let cowboyTrait1;
+    let cowboyTrait2;
+
     if (FS.scvmFactory.terribleTraitsTable) {
         const ttTable = ccContent.find(
             (i) => i.name === FS.scvmFactory.terribleTraitsTable
         );
         const ttResults = await compendiumTableDrawMany(ttTable, 2);
-        const terribleTrait1 = ttResults[0].data.text;
-        const terribleTrait2 = ttResults[1].data.text;
-        // BrokenBodies and BadHabits end with a period, but TerribleTraits don't.
-        descriptionLine += `TERRIBLE TRAITS: ${terribleTrait1} and ${terribleTrait2
-            .charAt(0)
-            .toLowerCase()}${terribleTrait2.slice(1)}.`;
+        terribleTrait1 = ttResults[0].data.text;
+        terribleTrait2 = ttResults[1].data.text;
+        
     }
+    if (FS.scvmFactory.cowboyTraitsTable1) {
+        const ttCowboyTable1 = ccContent.find(
+            (i) => i.name === FS.scvmFactory.cowboyTraitsTable1
+        );
+        const ttCowboyResults1 = await compendiumTableDrawMany(ttCowboyTable1, 1);
+        cowboyTrait1 = ttCowboyResults1[0].data.text;
+        const ttCowboyTable2 = ccContent.find(
+            (i) => i.name === FS.scvmFactory.cowboyTraitsTable2
+        );
+        const ttCowboyResults2 = await compendiumTableDrawMany(ttCowboyTable2, 1);
+        cowboyTrait2 = ttCowboyResults2[0].data.text;
+        
+    }
+    descriptionLine += `<table><tr><td>`
+    descriptionLine += `TRAITS<ul><li>${terribleTrait1}.</li>`;
+    descriptionLine += `<li>${terribleTrait2
+        .charAt(0)
+        .toUpperCase()}${terribleTrait2.slice(1)}.</li>`;
+    descriptionLine += `<li>${cowboyTrait1}.</li>`
+    descriptionLine += `<li>${cowboyTrait2}.</li></ul>`;
+    descriptionLine += `<br/>`;
     if (FS.scvmFactory.brokenBodiesTable) {
         const bbTable = ccContent.find(
             (i) => i.name === FS.scvmFactory.brokenBodiesTable
         );
         const bbDraw = await bbTable.draw({displayChat: false});
         const brokenBody = bbDraw.results[0].data.text;
-        descriptionLine += ` ${brokenBody}`;
+        descriptionLine += `</td><td valign=top>BROKEN BODY: ${brokenBody}<br/><br/>`;
     }
     if (FS.scvmFactory.badHabitsTable) {
         const bhTable = ccContent.find(
@@ -333,13 +345,13 @@ const rollScvmForClass = async (clazz) => {
         );
         const bhDraw = await bhTable.draw({displayChat: false});
         const badHabit = bhDraw.results[0].data.text;
-        descriptionLine += ` ${badHabit}`;
+        descriptionLine += `BAD HABIT: ${badHabit}</td></tr></table><br/>`;
     }
     if (descriptionLine) {
         descriptionLines.push(descriptionLine);
-        descriptionLines.push("<p>&nbsp;</p>");
+        //descriptionLines.push("<p>&nbsp;</p>");
     }
-    descriptionLines.push(`<br/>HORSE: ${horseDescription}<br/><br/>SKILL ORIGINS<br/>`);
+    descriptionLines.push(`HORSE: ${horseDescription}<br/><br/>SKILL ORIGINS<br/>`);
     // class-specific starting rolls
     const startingRollItems = [];
     if (clazz.data.data.startingRolls) {

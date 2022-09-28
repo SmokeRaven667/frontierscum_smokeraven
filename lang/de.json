@@ -91,7 +91,7 @@
   "FS.Individual": "Individuell",
   "FS.Infection": "Infektion",
   "FS.Equipped": "Equipped",
-  "FS.EquippedDescription": "Do you have the equipment to do this? (i.e. skill that allows without equipment, traps/gun for hunting, fishing line/hook for fishing, piggin/tinderbox for forage) ",
+  "FS.EquippedDescription": "Do you have the equipment to do this? (i.e. skill that allows without equipment, traps/gun for hunting, fishing line/hook for fishing, piggin/tinderbox for forage). If not roll with Disadvantage, roll with Advantage if you have special skill.",
   "FS.Miserable": "Miserable",
   "FS.Initiative": "Initiative",
   "FS.InitiativeEnemiesBegin": "Gegner beginnen",
